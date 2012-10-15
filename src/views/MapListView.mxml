@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		xmlns:s="library://ns.adobe.com/flex/spark" title="Evermind" initialize="init()">
+	<fx:Script>
+		<![CDATA[
+			import models.Map;
+			
+			import mx.collections.ArrayList;
+			
+			[Bindable]
+			private var maps : ArrayList = new ArrayList();
+			
+			private function init() : void
+			{
+				var map : Map = new Map();
+				map.title = "Test";
+				map.date = "2012. 10. 15";
+				maps.addItem( map );
+			}
+		]]>
+	</fx:Script>
+	
+	<s:layout>
+		<s:VerticalLayout />
+	</s:layout>
+	
+	<s:List width="100%" height="90%" dataProvider="{maps}" itemRenderer="renderers.MapListItemRenderer" />
+	<s:HGroup width="100%" height="10%">
+		<s:Rect width="100%" height="100%">
+			<s:fill>
+				<s:SolidColor color="0" />
+			</s:fill>
+		</s:Rect>
+	</s:HGroup>
+</s:View>
