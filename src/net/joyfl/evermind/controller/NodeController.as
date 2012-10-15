@@ -1,9 +1,9 @@
-﻿package evermind.controller {
+﻿package net.joyfl.evermind.controller {
 	import flash.display.Stage;
-	import evermind.node.NodeContainer;
+	import net.joyfl.evermind.node.NodeContainer;
 	import flash.events.MouseEvent;
-	import evermind.node.NodeView;
-	import evermind.node.NodeData;
+	import net.joyfl.evermind.node.NodeView;
+	import net.joyfl.evermind.node.NodeData;
 	import flash.geom.Point;
 	import flash.events.Event;
 	import flash.display.BitmapData;

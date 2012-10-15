@@ -1,4 +1,4 @@
-﻿package evermind.node {
+﻿package net.joyfl.evermind.node {
 	import flash.display.Shape;
 	import flash.geom.Point;
 	import flash.text.TextField;

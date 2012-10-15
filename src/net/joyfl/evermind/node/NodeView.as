@@ -1,4 +1,4 @@
-﻿package evermind.node {
+﻿package net.joyfl.evermind.node {
 	import flash.display.Sprite;
 	import flash.display.Shape;
 	

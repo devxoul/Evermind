@@ -3,7 +3,7 @@
 		xmlns:s="library://ns.adobe.com/flex/spark" title="Evermind" initialize="init()">
 	<fx:Script>
 		<![CDATA[
-			import models.Map;
+			import net.joyfl.evermind.models.Map;
 			
 			import mx.collections.ArrayList;
 			
@@ -31,7 +31,7 @@
 		<s:VerticalLayout />
 	</s:layout>
 	
-	<s:List width="100%" height="90%" dataProvider="{maps}" itemRenderer="renderers.MapListItemRenderer" click="onMapListClick(event)" />
+	<s:List width="100%" height="90%" dataProvider="{maps}" itemRenderer="net.joyfl.evermind.renderers.MapListItemRenderer" click="onMapListClick(event)" />
 	<s:HGroup width="100%" height="10%">
 		<s:Rect width="100%" height="100%">
 			<s:fill>

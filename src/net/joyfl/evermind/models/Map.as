@@ -1,4 +1,4 @@
-package models
+package net.joyfl.evermind.models
 {
 	import flash.display.BitmapData;
 
