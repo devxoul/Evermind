@@ -16,6 +16,11 @@
 				map.title = "Test";
 				map.date = "2012. 10. 15";
 				maps.addItem( map );
+				
+				var map2 : Map = new Map();
+				map2.title = "제목 없음";
+				map2.date = "2012. 10. 16";
+				maps.addItem( map2 );
 			}
 			
 			private function onMapListClick( e : MouseEvent ) : void
@@ -28,10 +33,13 @@
 	</fx:Script>
 	
 	<s:layout>
-		<s:VerticalLayout />
+		<s:VerticalLayout gap="0" />
 	</s:layout>
 	
-	<s:List width="100%" height="90%" dataProvider="{maps}" itemRenderer="net.joyfl.evermind.renderers.MapListItemRenderer" click="onMapListClick(event)" />
+	<s:List width="100%" height="90%"
+			dataProvider="{maps}" itemRenderer="net.joyfl.evermind.renderers.MapListItemRenderer"
+			click="onMapListClick(event)"
+			contentBackgroundColor="#F2F2F2" />
 	<s:HGroup width="100%" height="10%">
 		<s:Rect width="100%" height="100%">
 			<s:fill>
