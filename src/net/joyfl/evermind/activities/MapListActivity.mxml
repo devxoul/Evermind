@@ -28,7 +28,7 @@
 				var mapList : List = e.currentTarget as List;
 				var mapItem : Map = mapList.selectedItem as Map;
 				if( mapItem )
-					navigator.pushView( MapEditorView, mapItem );
+					navigator.pushView( MapEditorActivity, mapItem );
 			}
 		]]>
 	</fx:Script>
