@@ -44,7 +44,7 @@
 	<s:HGroup width="100%" height="10%">
 		<s:Rect width="100%" height="100%">
 			<s:fill>
-				<s:SolidColor color="0" />
+				<s:SolidColor color="#DDDDDD" />
 			</s:fill>
 		</s:Rect>
 	</s:HGroup>
