@@ -189,7 +189,7 @@
 			}
 		}
 		
-		function renderingEvent ( e:Event ):void
+		private function renderingEvent ( e:Event ):void
 		{
 			for each ( var n2:NodeContainer in container.getAllNode() )
 			{

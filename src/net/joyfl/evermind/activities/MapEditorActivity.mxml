@@ -1,27 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <s:View xmlns:fx="http://ns.adobe.com/mxml/2009" 
 		xmlns:s="library://ns.adobe.com/flex/spark"
-		initialize="init()">
+		creationComplete="init()">
 	<fx:Script>
 		<![CDATA[
+			import net.joyfl.evermind.controller.NodeController;
+			import net.joyfl.evermind.node.NodeContainer;
+			import net.joyfl.evermind.node.NodeView;
+			
+			
+			private var nodeView:NodeView;
+			private var nodeContainer:NodeContainer;
+			private var nodeController:NodeController;
+			
 			private function init() : void
 			{
+				nodeContainer = new NodeContainer( 0, 0, 'Test Node Container', 0xFF00FF, null );
+				nodeView = new NodeView( nodeContainer );
+				nodeController = new NodeController( stage, nodeContainer, nodeView );
 				
-			}
-			
-			
-			private function onScrollerGestureZoom( e : TransformGestureEvent ) : void
-			{
-				var scale : Number = ( e.scaleX + e.scaleY ) * .5;
-				scrollerContent.scaleX *= scale;
-				scrollerContent.scaleY *= scale;
+				nodeView.x = canvas.width / 2;
+				nodeView.y = canvas.height / 2;
+				
+				trace( canvas.width, canvas.height );
+				
+				canvas.addChild( nodeView );
 			}
 		]]>
 	</fx:Script>
 	
-	<s:Scroller width="100%" height="100%" gestureZoom="onScrollerGestureZoom(event)">
-		<s:Group id="scrollerContent">
-			<s:SpriteVisualElement id="canvas" width="1024" height="1024" />
-		</s:Group>
-	</s:Scroller>
+	<s:SpriteVisualElement id="canvas" width="100%" height="100%" />
 </s:View>
