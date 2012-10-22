@@ -32,9 +32,9 @@
 	</fx:Script>
 	
 	<s:navigationContent>
-		<e:ImageButton normalStateImage="@Embed('/../res/button_undo.png')" normalStateAlpha="1" highlightedStateAlpha="0.4" enabled="false" />
-		<e:ImageButton normalStateImage="@Embed('/../res/button_redo.png')" normalStateAlpha="1" highlightedStateAlpha="0.4" enabled="false" />
-		<e:ImageButton normalStateImage="@Embed('/../res/button_media.png')" normalStateAlpha="1" highlightedStateAlpha="0.4" />
+		<e:ImageButton normalStateImage="@Embed('/../res/button_undo.png')" enabled="false" />
+		<e:ImageButton normalStateImage="@Embed('/../res/button_redo.png')" enabled="false" />
+		<e:ImageButton normalStateImage="@Embed('/../res/button_media.png')" />
 	</s:navigationContent>
 	
 	<s:SpriteVisualElement id="canvas" width="100%" height="100%" />

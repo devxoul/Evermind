@@ -8,11 +8,13 @@
 		 disabledAlpha="0.3">
 	
 	<fx:Declarations>
+		<!-- image -->
 		<fx:Object id="normalStateImage">{null}</fx:Object>
 		<fx:Object id="highlightedStateImage">{normalStateImage}</fx:Object>
 		
-		<fx:Number id="normalStateAlpha">1</fx:Number>
-		<fx:Number id="highlightedStateAlpha">{normalStateAlpha}</fx:Number>
+		<!-- backgroundImage -->
+		<fx:Object id="normalStateBackgroundImage">{null}</fx:Object>
+		<fx:Object id="highlightedStateBackgroundImage">{normalStateBackgroundImage}</fx:Object>
 	</fx:Declarations>
 	
 	<s:states>
@@ -20,6 +22,10 @@
 		<s:State name="highlighted" />
 	</s:states>
 	
-	<s:BitmapImage source.normal="{normalStateImage}" source.highlighted="{highlightedStateImage}"
-				   alpha.normal="{normalStateAlpha}" alpha.highlighted="{highlightedStateAlpha}" />
+	<!-- backgroundImage -->
+	<s:BitmapImage source.normal="{normalStateBackgroundImage}" source.highlighted="{highlightedStateBackgroundImage}" />
+	
+	<!-- image -->
+	<s:BitmapImage horizontalCenter="0" verticalCenter="0"
+				   source.normal="{normalStateImage}" source.highlighted="{highlightedStateImage}" />
 </s:Group>
