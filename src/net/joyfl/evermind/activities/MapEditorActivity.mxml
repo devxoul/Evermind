@@ -4,9 +4,27 @@
 		creationComplete="init()">
 	<fx:Script>
 		<![CDATA[
+			import net.joyfl.evermind.controller.NodeController;
+			import net.joyfl.evermind.node.NodeContainer;
+			import net.joyfl.evermind.node.NodeView;
+			
+			
+			private var nodeView:NodeView;
+			private var nodeContainer:NodeContainer;
+			private var nodeController:NodeController;
+			
 			private function init() : void
 			{
+				nodeContainer = new NodeContainer( 0, 0, 'Test Node Container', 0xFF00FF, null );
+				nodeView = new NodeView( nodeContainer );
+				nodeController = new NodeController( stage, nodeContainer, nodeView );
+				
+				nodeView.x = canvas.width / 2;
+				nodeView.y = canvas.height / 2;
+				
 				trace( canvas.width, canvas.height );
+				
+				canvas.addChild( nodeView );
 			}
 		]]>
 	</fx:Script>
