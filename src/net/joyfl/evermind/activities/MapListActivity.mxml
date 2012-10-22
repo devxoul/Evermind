@@ -35,7 +35,7 @@
 				var mapList : List = e.currentTarget as List;
 				var mapItem : MapMetadata = mapList.selectedItem as MapMetadata;
 				if( mapItem )
-					navigator.pushView( MapEditorActivity, mapItem );
+					navigator.pushView( MapEditorActivity, {mapId: mapItem.mapId} );
 			}
 			
 			private function onAddButtonClick( e : MouseEvent ) : void

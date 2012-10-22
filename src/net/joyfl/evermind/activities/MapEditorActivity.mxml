@@ -7,9 +7,15 @@
 	<fx:Script>
 		<![CDATA[
 			import net.joyfl.evermind.controller.NodeController;
+			import net.joyfl.evermind.events.EvermindEvent;
+			import net.joyfl.evermind.loader.MapLoader;
+			import net.joyfl.evermind.models.Map;
 			import net.joyfl.evermind.node.NodeContainer;
 			import net.joyfl.evermind.node.NodeView;
 			
+			private var _loader : MapLoader = new MapLoader();
+			
+			private var _map : Map;
 			
 			private var nodeView:NodeView;
 			private var nodeContainer:NodeContainer;
@@ -17,9 +23,20 @@
 			
 			private function init() : void
 			{
-				nodeContainer = new NodeContainer( 0, 0, 'Test Node Container', 0x42A79F, null );
-				nodeView = new NodeView( nodeContainer );
-				nodeController = new NodeController( stage, nodeContainer, nodeView );
+				_loader.addEventListener( EvermindEvent.GET_MAP, onGetMap );
+				_loader.getMap( data.mapId );
+			}
+			
+			private function onGetMap( e : EvermindEvent ) : void
+			{
+				_loader.removeEventListener( EvermindEvent.LIST_MAPS, onGetMap );
+				
+				_map = e.data as Map;
+				
+				titleInput.text = _map.metadata.title;
+				
+				nodeView = new NodeView( _map.node );
+				nodeController = new NodeController( stage, _map.node, nodeView );
 				
 				nodeView.x = canvas.width / 2;
 				nodeView.y = canvas.height / 2;
