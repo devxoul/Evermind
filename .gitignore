@@ -5,6 +5,8 @@ bin-debug/DebugHostInfo.xml
 
 bin-debug/Evermind.swf
 
+bin-debug/Evermind-app.xml
+
 *.apk
 
 Evermind.apk
