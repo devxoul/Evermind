@@ -4,7 +4,8 @@
 		 xmlns:mx="library://ns.adobe.com/flex/mx"
 		 mouseOut="currentState = 'normal'"
 		 mouseUp="currentState = 'normal'"
-		 mouseDown="currentState = 'highlighted'">
+		 mouseDown="currentState = 'highlighted'"
+		 disabledAlpha="0.3">
 	
 	<fx:Declarations>
 		<fx:Object id="normalStateImage">{null}</fx:Object>
