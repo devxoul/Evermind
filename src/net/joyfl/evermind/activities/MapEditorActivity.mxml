@@ -45,14 +45,38 @@
 				
 				canvas.addChild( nodeView );
 			}
+			
+			private function onUndoButtonClick( e : MouseEvent ) : void
+			{
+				trace( "Undo" );
+			}
+			
+			private function onRedoButtonClick( e : MouseEvent ) : void
+			{
+				trace( "Redo" );				
+			}
+			
+			private function onMediaButtonClick( e : MouseEvent ) : void
+			{
+				trace( "Media" );
+			}
+			
+			private function onOverflowButtonClick( e : MouseEvent ) : void
+			{
+				trace( "Overflow" );
+			}
 		]]>
 	</fx:Script>
 	
 	<s:navigationContent>
-		<e:ImageButton normalStateImage="@Embed('/../res/button_undo.png')" enabled="false" />
-		<e:ImageButton normalStateImage="@Embed('/../res/button_redo.png')" enabled="false" />
-		<e:ImageButton normalStateImage="@Embed('/../res/button_media.png')" />
+		<e:ActionBarButton image="@Embed('/../res/button_undo.png')" backgroundImage="@Embed('/../res/bottom_actionbar_button_bg.png')" click="onUndoButtonClick( event )" />
+		<e:ActionBarButton image="@Embed('/../res/button_redo.png')" backgroundImage="@Embed('/../res/bottom_actionbar_button_bg.png')" click="onRedoButtonClick( event )" />
+		<e:ActionBarButton image="@Embed('/../res/button_media.png')" backgroundImage="@Embed('/../res/bottom_actionbar_button_bg.png')" click="onMediaButtonClick( event )" />
 	</s:navigationContent>
+	
+	<s:actionContent>
+		<e:ActionBarButton image="@Embed('/../res/button_overflow.png')" backgroundImage="@Embed('/../res/bottom_actionbar_button_bg.png')" click="onOverflowButtonClick( event )" />
+	</s:actionContent>
 	
 	<s:SpriteVisualElement id="canvas" width="100%" height="100%" />
 	

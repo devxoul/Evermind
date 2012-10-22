@@ -82,14 +82,14 @@
 			</s:fill>
 		</s:Rect>
 		
-		<s:HGroup left="10" right="10" height="72" verticalCenter="0" horizontalAlign="left" gap="20">
-			<e:ActionBarButton left="10" image="@Embed('/../res/button_add.png')" backgroundImage="@Embed('/../res/bottom_actionbar_button_bg.png')" click="onAddButtonClick( event )" />
+		<s:HGroup left="0" right="0" height="72" verticalCenter="0" horizontalAlign="left" gap="20">
+			<e:ActionBarButton left="10" image="@Embed('/../res/button_add.png')" backgroundImage="@Embed('/../res/bottom_actionbar_button_bg.png')" alpha="0.6" click="onAddButtonClick( event )" />
 		</s:HGroup>
 		
-		<s:HGroup left="10" right="10" height="72" verticalCenter="0" horizontalAlign="right" gap="20">
-			<e:ActionBarButton image="@Embed('/../res/button_align.png')" backgroundImage="@Embed('/../res/bottom_actionbar_button_bg.png')" click="onAlignButtonClick( event )" />
-			<e:ActionBarButton image="@Embed('/../res/button_search.png')" backgroundImage="@Embed('/../res/bottom_actionbar_button_bg.png')" click="onSearchButtonClick( event )" />
-			<e:ActionBarButton image="@Embed('/../res/button_overflow.png')" backgroundImage="@Embed('/../res/bottom_actionbar_button_bg.png')" click="onOverflowButtonClick( event )" />
+		<s:HGroup left="0" right="0" height="72" verticalCenter="0" horizontalAlign="right" gap="0">
+			<e:ActionBarButton image="@Embed('/../res/button_align.png')" backgroundImage="@Embed('/../res/bottom_actionbar_button_bg.png')" alpha="0.6" click="onAlignButtonClick( event )" />
+			<e:ActionBarButton image="@Embed('/../res/button_search.png')" backgroundImage="@Embed('/../res/bottom_actionbar_button_bg.png')" alpha="0.6" click="onSearchButtonClick( event )" />
+			<e:ActionBarButton image="@Embed('/../res/button_overflow.png')" backgroundImage="@Embed('/../res/bottom_actionbar_button_bg.png')" alpha="0.6" click="onOverflowButtonClick( event )" />
 		</s:HGroup>
 	</s:Group>
 </s:View>
