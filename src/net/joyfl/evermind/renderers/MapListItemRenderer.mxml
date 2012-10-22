@@ -4,9 +4,9 @@
 				mouseDown="this.alpha = 0.5;"
 				mouseUp="this.alpha = 1;">
 	<fx:Declarations>
-		<fx:String id="thumbnail">{data.metadata.thumbnail}</fx:String>
-		<fx:String id="title">{data.metadata.title}</fx:String>
-		<fx:String id="created">{data.metadata.created}</fx:String>
+		<fx:String id="thumbnail">{data.thumbnail}</fx:String>
+		<fx:String id="title">{data.title}</fx:String>
+		<fx:String id="created">{data.created}</fx:String>
 	</fx:Declarations>
 	
 	<s:Rect left="0" right="0" top="0" bottom="0">

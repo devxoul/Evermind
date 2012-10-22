@@ -7,31 +7,33 @@
 		<![CDATA[
 			import mx.collections.ArrayList;
 			
-			import net.joyfl.evermind.models.Map;
+			import net.joyfl.evermind.events.EvermindEvent;
+			import net.joyfl.evermind.loader.MapLoader;
 			import net.joyfl.evermind.models.MapMetadata;
 			
 			[Bindable]
 			private var maps : ArrayList = new ArrayList();
 			
+			private var _loader : MapLoader = new MapLoader();
+			
 			private function init() : void
 			{
-				for( var i : int = 0; i < 10; i++ )
+				_loader.addEventListener( EvermindEvent.LIST_MAPS, onListMaps );
+				_loader.listMaps();
+			}
+			
+			private function onListMaps( e : EvermindEvent ) : void
+			{
+				for( var i : int = 0; i < e.data.length; i++ )
 				{
-					var metadata : MapMetadata = new MapMetadata();
-					metadata.title = "Title";
-					metadata.created = "2012.10.10";
-					
-					var map : Map = new Map();
-					map.metadata = metadata;
-					
-					maps.addItem( map );
+					maps.addItem( e.data[i] );
 				}
 			}
 			
 			private function onMapListClick( e : MouseEvent ) : void
 			{
 				var mapList : List = e.currentTarget as List;
-				var mapItem : Map = mapList.selectedItem as Map;
+				var mapItem : MapMetadata = mapList.selectedItem as MapMetadata;
 				if( mapItem )
 					navigator.pushView( MapEditorActivity, mapItem );
 			}
