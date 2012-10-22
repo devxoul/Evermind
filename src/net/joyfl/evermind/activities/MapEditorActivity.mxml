@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <s:View xmlns:fx="http://ns.adobe.com/mxml/2009" 
 		xmlns:s="library://ns.adobe.com/flex/spark"
-		creationComplete="init()">
+		xmlns:e="net.joyfl.evermind.components.*"
+		creationComplete="init()"
+		mouseDown="stage.focus = null">
 	<fx:Script>
 		<![CDATA[
 			import net.joyfl.evermind.controller.NodeController;
@@ -15,7 +17,7 @@
 			
 			private function init() : void
 			{
-				nodeContainer = new NodeContainer( 0, 0, 'Test Node Container', 0xFF00FF, null );
+				nodeContainer = new NodeContainer( 0, 0, 'Test Node Container', 0x42A79F, null );
 				nodeView = new NodeView( nodeContainer );
 				nodeController = new NodeController( stage, nodeContainer, nodeView );
 				
@@ -29,5 +31,18 @@
 		]]>
 	</fx:Script>
 	
+	<s:navigationContent>
+		<e:ImageButton normalStateImage="@Embed('/../res/button_undo.png')" normalStateAlpha="1" highlightedStateAlpha="0.4" enabled="false" />
+		<e:ImageButton normalStateImage="@Embed('/../res/button_redo.png')" normalStateAlpha="1" highlightedStateAlpha="0.4" enabled="false" />
+		<e:ImageButton normalStateImage="@Embed('/../res/button_media.png')" normalStateAlpha="1" highlightedStateAlpha="0.4" />
+	</s:navigationContent>
+	
 	<s:SpriteVisualElement id="canvas" width="100%" height="100%" />
+	
+	<s:TextInput id="titleInput" left="20" right="20" top="5" contentBackgroundAlpha="0" borderVisible="false" textAlign="center" color="#464F4E" fontWeight="bold" />
+	<s:Line left="20" right="20" top="62">
+		<s:stroke>
+			<s:SolidColorStroke color="#42A79F" weight="2" caps="square" />					
+		</s:stroke>
+	</s:Line>
 </s:View>

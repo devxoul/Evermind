@@ -30,7 +30,7 @@
 	
 	<s:Group id="navigationGroup" left="12" top="0" verticalCenter="-3">
 		<s:layout>
-			<s:HorizontalLayout />
+			<s:HorizontalLayout gap="12" />
 		</s:layout>
 	</s:Group>
 	
