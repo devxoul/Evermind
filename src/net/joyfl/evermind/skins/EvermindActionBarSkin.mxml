@@ -26,25 +26,19 @@
 		</s:fill>
 	</s:Rect>
 	
-	<s:Image source="@Embed('/../res/action_bar_bg.png')"
-			 left="0" right="0" top="0" bottom="0"
-			 scaleMode="stretch" />
+	<s:Image source="@Embed('/../res/action_bar_bg.png')" left="0" right="0" top="0" bottom="0" scaleMode="stretch" />
 	
-	<s:Group id="navigationGroup"
-			 left="12"
-			 top="15"/>
+	<s:Group id="navigationGroup" left="12" top="0" verticalCenter="-3">
+		<s:layout>
+			<s:HorizontalLayout />
+		</s:layout>
+	</s:Group>
 	
-	<s:Group id="titleGroup"
-			 left="10"
-			 top="15"/>
+	<s:Group id="titleGroup" left="10" top="0" verticalCenter="-3" />
 	
-	<s:Group id="actionGroup"
-			 right="12"
-			 top="15"/>
+	<s:Group id="actionGroup" right="12" top="0" verticalCenter="-3" />
 	
-	<s:Label id="titleDisplay"
-			 left="15"
-			 verticalCenter="0"/>
+	<s:Label id="titleDisplay" left="15" verticalCenter="0" />
 	
 	<!-- SkinParts
 	name=titleGroup, type=spark.components.Group, required=false
