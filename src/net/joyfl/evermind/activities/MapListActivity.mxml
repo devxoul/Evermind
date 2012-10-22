@@ -5,9 +5,10 @@
 		title="Evermind" initialize="init()">
 	<fx:Script>
 		<![CDATA[
-			import net.joyfl.evermind.models.Map;
-			
 			import mx.collections.ArrayList;
+			
+			import net.joyfl.evermind.models.Map;
+			import net.joyfl.evermind.models.MapMetadata;
 			
 			[Bindable]
 			private var maps : ArrayList = new ArrayList();
@@ -16,10 +17,14 @@
 			{
 				for( var i : int = 0; i < 10; i++ )
 				{
+					var metadata : MapMetadata = new MapMetadata();
+					metadata.title = "Title";
+					metadata.created = "2012.10.10";
+					
 					var map : Map = new Map();
-					map.title = "제목 없음 - Untitled (" + ( i + 1 ) + ")";
-					map.date = "2012. 10. " + ( 1 + i ) + ".";
-					maps.addItem( map );					
+					map.metadata = metadata;
+					
+					maps.addItem( map );
 				}
 			}
 			

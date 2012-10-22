@@ -1,12 +1,8 @@
 package net.joyfl.evermind.models
 {
-	import flash.display.BitmapData;
-
-	[Bindable]
 	public class Map
 	{
-		public var thumbnail : BitmapData;
-		public var title : String;
-		public var date : String;
+		public var metadata : MapMetadata;
+		public var mapData : MapData;
 	}
 }
