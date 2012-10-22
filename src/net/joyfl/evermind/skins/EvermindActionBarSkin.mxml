@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <s:Skin xmlns:fx="http://ns.adobe.com/mxml/2009" 
-		xmlns:s="library://ns.adobe.com/flex/spark">
+		xmlns:s="library://ns.adobe.com/flex/spark"
+		height="77">
 	<!-- host component -->
 	<fx:Metadata>
 		[HostComponent("spark.components.ActionBar")]
@@ -18,6 +19,7 @@
 		<s:State name="title" />
 	</s:states>
 	
+	<!-- 배경 -->
 	<s:Rect left="0" right="0" top="0" bottom="0">
 		<s:fill>
 			<s:SolidColor color="#F2F2F2" />
@@ -25,8 +27,7 @@
 	</s:Rect>
 	
 	<s:Image source="@Embed('/../res/action_bar_bg.png')"
-			 left="0"
-			 right="0"
+			 left="0" right="0" top="0" bottom="0"
 			 scaleMode="stretch" />
 	
 	<s:Group id="navigationGroup"
@@ -43,7 +44,7 @@
 	
 	<s:Label id="titleDisplay"
 			 left="15"
-			 verticalCenter="-3"/>
+			 verticalCenter="0"/>
 	
 	<!-- SkinParts
 	name=titleGroup, type=spark.components.Group, required=false

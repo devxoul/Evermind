@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		 xmlns:s="library://ns.adobe.com/flex/spark" 
+		 xmlns:mx="library://ns.adobe.com/flex/mx"
+		 mouseOut="currentState = 'normal'"
+		 mouseUp="currentState = 'normal'"
+		 mouseDown="currentState = 'highlighted'">
+	
+	<fx:Declarations>
+		<fx:Object id="normalStateImage">{null}</fx:Object>
+		<fx:Object id="highlightedStateImage">{normalStateImage}</fx:Object>
+		
+		<fx:Number id="normalStateAlpha">1</fx:Number>
+		<fx:Number id="highlightedStateAlpha">{normalStateAlpha}</fx:Number>
+	</fx:Declarations>
+	
+	<s:states>
+		<s:State name="normal" />
+		<s:State name="highlighted" />
+	</s:states>
+	
+	<s:BitmapImage source.normal="{normalStateImage}" source.highlighted="{highlightedStateImage}"
+				   alpha.normal="{normalStateAlpha}" alpha.highlighted="{highlightedStateAlpha}" />
+</s:Group>

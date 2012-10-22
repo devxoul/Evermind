@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <s:View xmlns:fx="http://ns.adobe.com/mxml/2009" 
-		xmlns:s="library://ns.adobe.com/flex/spark" title="Evermind" initialize="init()">
+		xmlns:s="library://ns.adobe.com/flex/spark"
+		xmlns:e="net.joyfl.evermind.components.*"
+		title="Evermind" initialize="init()">
 	<fx:Script>
 		<![CDATA[
 			import net.joyfl.evermind.models.Map;
@@ -12,15 +14,13 @@
 			
 			private function init() : void
 			{
-				var map : Map = new Map();
-				map.title = "Test";
-				map.date = "2012. 10. 15";
-				maps.addItem( map );
-				
-				var map2 : Map = new Map();
-				map2.title = "제목 없음";
-				map2.date = "2012. 10. 16";
-				maps.addItem( map2 );
+				for( var i : int = 0; i < 10; i++ )
+				{
+					var map : Map = new Map();
+					map.title = "제목 없음 - Untitled (" + ( i + 1 ) + ")";
+					map.date = "2012. 10. " + ( 1 + i ) + ".";
+					maps.addItem( map );					
+				}
 			}
 			
 			private function onMapListClick( e : MouseEvent ) : void
@@ -30,6 +30,26 @@
 				if( mapItem )
 					navigator.pushView( MapEditorActivity, mapItem );
 			}
+			
+			private function onAddButtonClick( e : MouseEvent ) : void
+			{
+				trace( "Add" );
+			}
+			
+			private function onAlignButtonClick( e : MouseEvent ) : void
+			{
+				trace( "Align" );
+			}
+			
+			private function onSearchButtonClick( e : MouseEvent ) : void
+			{
+				trace( "Search" );
+			}
+			
+			private function onOverflowButtonClick( e : MouseEvent ) : void
+			{
+				trace( "Overflow" );
+			}
 		]]>
 	</fx:Script>
 	
@@ -37,15 +57,32 @@
 		<s:VerticalLayout gap="0" />
 	</s:layout>
 	
-	<s:List width="100%" height="90%"
+	<s:List width="100%" height="100%"
 			dataProvider="{maps}" itemRenderer="net.joyfl.evermind.renderers.MapListItemRenderer"
 			click="onMapListClick(event)"
 			contentBackgroundColor="#F2F2F2" />
-	<s:HGroup width="100%" height="10%">
+	<s:Line width="100%">
+		<s:stroke>
+			<s:SolidColorStroke color="#999999" caps="square" />
+		</s:stroke>
+	</s:Line>
+	
+	<!-- 하단 액션바 -->
+	<s:Group width="100%" height="72">
 		<s:Rect width="100%" height="100%">
 			<s:fill>
-				<s:SolidColor color="0" />
+				<s:SolidColor color="#DDDDDD" />
 			</s:fill>
 		</s:Rect>
-	</s:HGroup>
+		
+		<s:HGroup left="10" right="10" height="48" verticalCenter="0" horizontalAlign="left" gap="20">
+			<e:ImageButton left="10" normalStateImage="@Embed('/../res/button_add.png')" normalStateAlpha="0.6" highlightedStateAlpha="0.4" click="onAddButtonClick( event )" />
+		</s:HGroup>
+		
+		<s:HGroup left="10" right="10" height="48" verticalCenter="0" horizontalAlign="right" gap="20">
+			<e:ImageButton normalStateImage="@Embed('/../res/button_align.png')" normalStateAlpha="0.6" highlightedStateAlpha="0.4" click="onAlignButtonClick( event )" />
+			<e:ImageButton normalStateImage="@Embed('/../res/button_search.png')" normalStateAlpha="0.6" highlightedStateAlpha="0.4" click="onSearchButtonClick( event )" />
+			<e:ImageButton normalStateImage="@Embed('/../res/button_overflow.png')" normalStateAlpha="0.6" highlightedStateAlpha="0.4" click="onOverflowButtonClick( event )" />
+		</s:HGroup>
+	</s:Group>
 </s:View>
