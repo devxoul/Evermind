@@ -1,12 +1,14 @@
 ﻿package net.joyfl.evermind.controller {
-	import flash.display.Stage;
-	import net.joyfl.evermind.node.NodeContainer;
-	import flash.events.MouseEvent;
-	import net.joyfl.evermind.node.NodeView;
-	import net.joyfl.evermind.node.NodeData;
-	import flash.geom.Point;
-	import flash.events.Event;
 	import flash.display.BitmapData;
+	import flash.display.Sprite;
+	import flash.display.Stage;
+	import flash.events.Event;
+	import flash.events.MouseEvent;
+	import flash.geom.Point;
+	
+	import net.joyfl.evermind.node.NodeContainer;
+	import net.joyfl.evermind.node.NodeData;
+	import net.joyfl.evermind.node.NodeView;
 	
 	public class NodeController extends Object {
 		
@@ -26,7 +28,7 @@
 		private var renderingSleepTime:int;
 		private var slideSpeed:Point;
 		
-		private var stage:Stage;
+		private var canvas:Sprite;
 		private var container:NodeContainer;
 		private var view:NodeView;
 		
@@ -39,8 +41,8 @@
 		
 		/**
 		*/
-		public function NodeController ( stage:Stage, container:NodeContainer, view:NodeView ) {
-			this.stage = stage;
+		public function NodeController ( canvas:Sprite, container:NodeContainer, view:NodeView ) {
+			this.canvas = canvas;
 			this.view = view;
 			this.container = container;
 			
@@ -51,11 +53,11 @@
 			mouseDownCount = 0;
 			mouseDownPoint = new Point;
 			
-			stage.addEventListener(MouseEvent.MOUSE_DOWN, mouseDownEvent );
-			stage.addEventListener(MouseEvent.MOUSE_UP, mouseUpEvent );
-			stage.addEventListener(MouseEvent.MOUSE_MOVE, mouseMoveEvent );
-			stage.addEventListener(Event.ENTER_FRAME, enterFrameEvent );
-			stage.addEventListener(Event.ENTER_FRAME, renderingEvent );
+			canvas.addEventListener(MouseEvent.MOUSE_DOWN, mouseDownEvent );
+			canvas.addEventListener(MouseEvent.MOUSE_UP, mouseUpEvent );
+			canvas.addEventListener(MouseEvent.MOUSE_MOVE, mouseMoveEvent );
+			canvas.addEventListener(Event.ENTER_FRAME, enterFrameEvent );
+			canvas.addEventListener(Event.ENTER_FRAME, renderingEvent );
 		}
 		
 		/**

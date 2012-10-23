@@ -42,7 +42,7 @@
 				nodeViewContainer = new Sprite;
 				nodeView = new NodeView( _map.node );
 				nodeViewContainer.addChild( nodeView );
-				nodeController = new NodeController( stage, _map.node, nodeView );
+				nodeController = new NodeController( this, _map.node, nodeView );
 				
 				nodeViewContainer.x = canvas.width / 2;
 				nodeViewContainer.y = canvas.height / 2;
@@ -78,6 +78,7 @@
 			
 			protected function gestureZoomHandler( e : TransformGestureEvent ) : void
 			{
+//				nodeController.enabled = false;
 				nodeScale *= ( e.scaleX + e.scaleY ) / 2;
 			}
 			
@@ -90,15 +91,8 @@
 	</fx:Script>
 	
 	<s:navigationContent>
-		<e:ActionBarButton id="undoBtn" image="@Embed('/../res/button_undo.png')" backgroundImage="@Embed('/../res/bottom_actionbar_button_bg.png')" click="onUndoButtonClick( event )" />
-		<e:ActionBarButton id="redoBtn" image="@Embed('/../res/button_redo.png')" backgroundImage="@Embed('/../res/bottom_actionbar_button_bg.png')" click="onRedoButtonClick( event )" />
-		<e:ActionBarButton id="mediaBtn" image="@Embed('/../res/button_media.png')" backgroundImage="@Embed('/../res/bottom_actionbar_button_bg.png')" click="onMediaButtonClick( event )" />
 		<e:ActionBarButton id="removeBtn" image="@Embed('/../res/button_media.png')" backgroundImage="@Embed('/../res/bottom_actionbar_button_bg.png')" click="onRemoveButtonClick( event )" />
 	</s:navigationContent>
-	
-	<s:actionContent>
-		<e:ActionBarButton image="@Embed('/../res/button_overflow_green.png')" backgroundImage="@Embed('/../res/bottom_actionbar_button_bg.png')" click="onOverflowButtonClick( event )" />
-	</s:actionContent>
 	
 	<s:SpriteVisualElement id="canvas" width="100%" height="100%" />
 	
