@@ -3,7 +3,10 @@
 		xmlns:s="library://ns.adobe.com/flex/spark"
 		xmlns:e="net.joyfl.evermind.components.*"
 		creationComplete="init()"
-		mouseDown="stage.focus = null">
+		gestureZoom="gestureZoomHandler(event)"
+		enterFrame="enterFrameHandler(event)"
+		mouseDown="/*stage.focus = null*/">
+	
 	<fx:Script>
 		<![CDATA[
 			import net.joyfl.evermind.controller.NodeController;
@@ -17,12 +20,14 @@
 			
 			private var _map : Map;
 			
+			private var nodeScale:Number;
+			private var nodeViewContainer:Sprite;
 			private var nodeView:NodeView;
-			private var nodeContainer:NodeContainer;
 			private var nodeController:NodeController;
 			
 			private function init() : void
 			{
+				nodeScale = 1;
 				_loader.addEventListener( EvermindEvent.GET_MAP, onGetMap );
 				_loader.getMap( data.mapId );
 			}
@@ -35,15 +40,15 @@
 				
 				titleInput.text = _map.metadata.title;
 				
+				nodeViewContainer = new Sprite;
 				nodeView = new NodeView( _map.node );
+				nodeViewContainer.addChild( nodeView );
 				nodeController = new NodeController( stage, _map.node, nodeView );
 				
-				nodeView.x = canvas.width / 2;
-				nodeView.y = canvas.height / 2;
+				nodeViewContainer.x = canvas.width / 2;
+				nodeViewContainer.y = canvas.height / 2;
 				
-				trace( canvas.width, canvas.height );
-				
-				canvas.addChild( nodeView );
+				canvas.addChild( nodeViewContainer );
 			}
 			
 			private function onUndoButtonClick( e : MouseEvent ) : void
@@ -65,13 +70,31 @@
 			{
 				trace( "Overflow" );
 			}
+			
+			private function onRemoveButtonClick ( e : MouseEvent ) : void
+			{
+				trace( 'remove' );
+				nodeController.removeSelectedNode();
+			}
+			
+			protected function gestureZoomHandler( e : TransformGestureEvent ) : void
+			{
+				nodeScale *= ( e.scaleX + e.scaleY ) / 2;
+			}
+			
+			protected function enterFrameHandler ( e : Event ) : void
+			{
+				nodeViewContainer.scaleX = nodeViewContainer.scaleY += (nodeScale-nodeViewContainer.scaleY) * 0.5;
+			}
+			
 		]]>
 	</fx:Script>
 	
 	<s:navigationContent>
-		<e:ActionBarButton image="@Embed('/../res/button_undo.png')" backgroundImage="@Embed('/../res/bottom_actionbar_button_bg.png')" click="onUndoButtonClick( event )" />
-		<e:ActionBarButton image="@Embed('/../res/button_redo.png')" backgroundImage="@Embed('/../res/bottom_actionbar_button_bg.png')" click="onRedoButtonClick( event )" />
-		<e:ActionBarButton image="@Embed('/../res/button_media.png')" backgroundImage="@Embed('/../res/bottom_actionbar_button_bg.png')" click="onMediaButtonClick( event )" />
+		<e:ActionBarButton id="undoBtn" image="@Embed('/../res/button_undo.png')" backgroundImage="@Embed('/../res/bottom_actionbar_button_bg.png')" click="onUndoButtonClick( event )" />
+		<e:ActionBarButton id="redoBtn" image="@Embed('/../res/button_redo.png')" backgroundImage="@Embed('/../res/bottom_actionbar_button_bg.png')" click="onRedoButtonClick( event )" />
+		<e:ActionBarButton id="mediaBtn" image="@Embed('/../res/button_media.png')" backgroundImage="@Embed('/../res/bottom_actionbar_button_bg.png')" click="onMediaButtonClick( event )" />
+		<e:ActionBarButton id="removeBtn" image="@Embed('/../res/button_media.png')" backgroundImage="@Embed('/../res/bottom_actionbar_button_bg.png')" click="onRemoveButtonClick( event )" />
 	</s:navigationContent>
 	
 	<s:actionContent>

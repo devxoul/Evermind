@@ -19,6 +19,18 @@
 		}
 		
 		/**
+		 */
+		override public function clone () :NodeContainer
+		{
+			var data:NodeData = new NodeData( this.x, this.y, this.title, this.media );
+			for each ( var nd:NodeData in this.children )
+			{
+				data.addNode( nd.clone() as NodeData );
+			}
+			return data;
+		}
+		
+		/**
 		*/
 		public function removeThis ( ) :void
 		{
