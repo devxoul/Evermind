@@ -33,6 +33,19 @@ package net.joyfl.evermind.loader
 			onGetMap( null ); // temp
 		}
 		
+		public function createMap( metadata : MapMetadata ) : void
+		{
+			_loader.addEventListener( Event.COMPLETE, onCreateMap );
+			onCreateMap( null ); // temp
+		}
+		
+		public function setMap( map : Map ) : void
+		{
+			_loader.addEventListener( Event.COMPLETE, onSetMap );
+			onSetMap( null ); // temp
+		}
+		
+		
 		private function onListMap( e : Event ) : void
 		{
 			_loader.removeEventListener( Event.COMPLETE, onListMap );
@@ -106,7 +119,7 @@ package net.joyfl.evermind.loader
 			
 			if( xml.status.code != 0 )
 			{
-				trace( "[MapLoader.onListMap()] Error" );
+				trace( "[MapLoader.onGetMap()] Error" );
 			}
 			
 			var metadata : MapMetadata = new MapMetadata();
@@ -123,6 +136,49 @@ package net.joyfl.evermind.loader
 			
 			dispatchEvermindEvent( EvermindEvent.GET_MAP, map );
 		}
+		
+		private function onCreateMap( e : EvermindEvent ) : void
+		{
+			_loader.removeEventListener( Event.COMPLETE, onCreateMap );
+			
+			var xml : XML = new XML(
+				<data>
+					<status>
+						<code>0</code>
+						<message></message>
+					</status>
+				</data>
+			);
+			
+			if( xml.status.code != 0 )
+			{
+				trace( "[MapLoader.onCreateMap()] Error" );
+			}
+			
+			dispatchEvermindEvent( EvermindEvent.CREATE_MAP, true );
+		}
+		
+		private function onSetMap( e : EvermindEvent ) : void
+		{
+			_loader.removeEventListener( Event.COMPLETE, onSetMap );
+			
+			var xml : XML = new XML(
+				<data>
+					<status>
+						<code>0</code>
+						<message></message>
+					</status>
+				</data>
+			);
+			
+			if( xml.status.code != 0 )
+			{
+				trace( "[MapLoader.onSetMap()] Error" );
+			}
+			
+			dispatchEvermindEvent( EvermindEvent.SET_MAP, true );
+		}
+		
 		
 		private function addChildNodesFromXML( parentNode : NodeContainer, parentNodeXML : XMLList ) : void
 		{
