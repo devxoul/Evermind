@@ -96,7 +96,7 @@
 			_code = value;
 		}
 		
-		internal function get textField ():TextField
+		public function get textField ():TextField
 		{
 			return _textField;
 		}

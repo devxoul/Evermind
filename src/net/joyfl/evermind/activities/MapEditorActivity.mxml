@@ -49,24 +49,10 @@
 				canvas.addChild( nodeViewContainer );
 			}
 			
-			private function onUndoButtonClick( e : MouseEvent ) : void
+			private function onEditButtonClick( e : MouseEvent ) : void
 			{
-				trace( "Undo" );
-			}
-			
-			private function onRedoButtonClick( e : MouseEvent ) : void
-			{
-				trace( "Redo" );				
-			}
-			
-			private function onMediaButtonClick( e : MouseEvent ) : void
-			{
-				trace( "Media" );
-			}
-			
-			private function onOverflowButtonClick( e : MouseEvent ) : void
-			{
-				trace( "Overflow" );
+				if( nodeController.currentNode )
+					nodeController.currentNode.textField.requestSoftKeyboard();
 			}
 			
 			private function onRemoveButtonClick ( e : MouseEvent ) : void
@@ -101,6 +87,7 @@
 	</fx:Script>
 	
 	<s:navigationContent>
+		<e:ActionBarButton id="editBtn" image="@Embed('/../res/button_edit.png')" backgroundImage="@Embed('/../res/bottom_actionbar_button_bg.png')" click="onEditButtonClick( event )" />
 		<e:ActionBarButton id="removeBtn" image="@Embed('/../res/button_delete.png')" backgroundImage="@Embed('/../res/bottom_actionbar_button_bg.png')" click="onRemoveButtonClick( event )" />
 	</s:navigationContent>
 	

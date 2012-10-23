@@ -39,6 +39,11 @@
 			return _finalEditingNode;
 		}
 		
+		public function get currentNode() : NodeContainer
+		{
+			return editingNode;
+		}
+		
 		/**
 		*/
 		public function NodeController ( canvas:Sprite, container:NodeContainer, view:NodeView ) {
