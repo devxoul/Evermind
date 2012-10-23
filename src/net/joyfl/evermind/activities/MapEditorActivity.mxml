@@ -49,6 +49,11 @@
 				canvas.addChild( nodeViewContainer );
 			}
 			
+			private function onSaveButtonClick( e : MouseEvent ) : void
+			{
+				
+			}
+			
 			private function onEditButtonClick( e : MouseEvent ) : void
 			{
 				if( nodeController.currentNode )
@@ -58,6 +63,23 @@
 			private function onRemoveButtonClick ( e : MouseEvent ) : void
 			{
 				nodeController.removeSelectedNode();
+			}
+			
+			private function onTitleButtonClick( e : MouseEvent ) : void
+			{
+				// hide title
+				if( currentState == "title" )
+				{
+					titleView.visible = false;
+					currentState = "noTitle";
+				}
+				
+				// show title
+				else
+				{
+					titleView.visible = true;
+					currentState = "title";
+				}
 			}
 			
 			protected function gestureZoomHandler( e : TransformGestureEvent ) : void
@@ -86,21 +108,42 @@
 		]]>
 	</fx:Script>
 	
+	<s:states>
+		<s:State name="title" />
+		<s:State name="noTitle" />
+	</s:states>
+	
 	<s:navigationContent>
+		<e:ActionBarButton image="@Embed('/../res/button_save.png')" backgroundImage="@Embed('/../res/bottom_actionbar_button_bg.png')" click="onSaveButtonClick( event )" />
 		<e:ActionBarButton id="editBtn" image="@Embed('/../res/button_edit.png')" backgroundImage="@Embed('/../res/bottom_actionbar_button_bg.png')" click="onEditButtonClick( event )" />
 		<e:ActionBarButton id="removeBtn" image="@Embed('/../res/button_delete.png')" backgroundImage="@Embed('/../res/bottom_actionbar_button_bg.png')" click="onRemoveButtonClick( event )" />
 	</s:navigationContent>
 	
-	<s:Scroller id="scroller" top="65" width="100%" height="100%" gestureZoom="gestureZoomHandler(event)" mouseUp="onScrollerMouseUp( event )">
+	<s:actionContent>
+		<e:ActionBarButton image.title="@Embed('/../res/button_hide_title.png')" image.noTitle="@Embed('/../res/button_show_title.png')"
+						   backgroundImage="@Embed('/../res/bottom_actionbar_button_bg.png')" click="onTitleButtonClick( event )" />
+	</s:actionContent>
+	
+	<s:Scroller id="scroller" top.title="65" top.noTitle="0" width="100%" height="100%" gestureZoom="gestureZoomHandler(event)" mouseUp="onScrollerMouseUp( event )">
 		<s:Group id="scrollerContent" horizontalScrollPosition="2048" verticalScrollPosition="2048">
 			<s:SpriteVisualElement id="canvas" width="4096" height="4096" mouseDown="onCanvasMouseDown( event )" />
 		</s:Group>
 	</s:Scroller>
 	
-	<s:TextInput id="titleInput" left="20" right="20" top="5" contentBackgroundAlpha="0" borderVisible="false" textAlign="center" color="#464F4E" fontWeight="bold" />
-	<s:Line left="20" right="20" top="62">
-		<s:stroke>
-			<s:SolidColorStroke color="#42A79F" weight="2" caps="square" />					
-		</s:stroke>
-	</s:Line>
+	<s:Group id="titleView" left="0" right="0">
+		<s:hideEffect>
+			<s:Move yTo="-50" />
+		</s:hideEffect>
+		
+		<s:showEffect>
+			<s:Move yTo="0" />
+		</s:showEffect>
+		
+		<s:TextInput id="titleInput" left="20" right="20" top="5" contentBackgroundAlpha="0" borderVisible="false" textAlign="center" color="#464F4E" fontWeight="bold" />
+		<s:Line left="20" right="20" top="62">
+			<s:stroke>
+				<s:SolidColorStroke color="#42A79F" weight="2" caps="square" />					
+			</s:stroke>
+		</s:Line>
+	</s:Group>
 </s:View>
