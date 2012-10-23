@@ -64,11 +64,11 @@
 		*/
 		public function removeSelectedNode ():void
 		{
-			if( _finalEditingNode == null ) return;
-			if( !(_finalEditingNode is NodeData) ) return;
-			NodeData( _finalEditingNode ).removeThis();
-			_finalEditingNode = null;
-			view.render();
+			if( editingNode && editingNode is NodeData )
+			{
+				NodeData( editingNode ).removeThis();
+				view.render();
+			}
 		}
 		
 		/**
@@ -134,10 +134,10 @@
 				if( selectedNode == null )
 				{
 					p = new Point( (view.mouseX - mouseDownPoint.x), (view.mouseY - mouseDownPoint.y) );
-					view.x += p.x;
-					view.y += p.y;
-					slideSpeed.x += (p.x-slideSpeed.x)*0.6;
-					slideSpeed.y += (p.y-slideSpeed.y)*0.6;
+//					view.x += p.x;
+//					view.y += p.y;
+//					slideSpeed.x += (p.x-slideSpeed.x)*0.6;
+//					slideSpeed.y += (p.y-slideSpeed.y)*0.6;
 					mouseDownPoint.x = view.mouseX;
 					mouseDownPoint.y = view.mouseY;
 					return;
@@ -184,10 +184,10 @@
 			}
 			else
 			{
-				view.x += slideSpeed.x;
-				view.y += slideSpeed.y;
-				slideSpeed.x *= SLIDE_BREAK;
-				slideSpeed.y *= SLIDE_BREAK;
+//				view.x += slideSpeed.x;
+//				view.y += slideSpeed.y;
+//				slideSpeed.x *= SLIDE_BREAK;
+//				slideSpeed.y *= SLIDE_BREAK;
 				if( renderingSleepTime > 0 ) --renderingSleepTime;
 			}
 		}

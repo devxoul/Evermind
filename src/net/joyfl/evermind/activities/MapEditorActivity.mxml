@@ -3,7 +3,6 @@
 		xmlns:s="library://ns.adobe.com/flex/spark"
 		xmlns:e="net.joyfl.evermind.components.*"
 		creationComplete="init()"
-		gestureZoom="gestureZoomHandler(event)"
 		enterFrame="enterFrameHandler(event)"
 		mouseDown="/*stage.focus = null*/">
 	
@@ -72,13 +71,11 @@
 			
 			private function onRemoveButtonClick ( e : MouseEvent ) : void
 			{
-				trace( 'remove' );
 				nodeController.removeSelectedNode();
 			}
 			
 			protected function gestureZoomHandler( e : TransformGestureEvent ) : void
 			{
-//				nodeController.enabled = false;
 				nodeScale *= ( e.scaleX + e.scaleY ) / 2;
 			}
 			
@@ -87,14 +84,31 @@
 				nodeViewContainer.scaleX = nodeViewContainer.scaleY += (nodeScale-nodeViewContainer.scaleY) * 0.5;
 			}
 			
+			protected function onCanvasMouseDown( e : MouseEvent) : void
+			{
+				scroller.setStyle( "horizontalScrollPolicy", "off" );
+				scroller.setStyle( "verticalScrollPolicy", "off" );
+				
+			}
+			
+			protected function onScrollerMouseUp( e : MouseEvent ) : void
+			{
+				scroller.setStyle( "horizontalScrollPolicy", "on" );
+				scroller.setStyle( "verticalScrollPolicy", "on" );
+			}
+			
 		]]>
 	</fx:Script>
 	
 	<s:navigationContent>
-		<e:ActionBarButton id="removeBtn" image="@Embed('/../res/button_media.png')" backgroundImage="@Embed('/../res/bottom_actionbar_button_bg.png')" click="onRemoveButtonClick( event )" />
+		<e:ActionBarButton id="removeBtn" image="@Embed('/../res/button_delete.png')" backgroundImage="@Embed('/../res/bottom_actionbar_button_bg.png')" click="onRemoveButtonClick( event )" />
 	</s:navigationContent>
 	
-	<s:SpriteVisualElement id="canvas" width="100%" height="100%" />
+	<s:Scroller id="scroller" top="65" width="100%" height="100%" gestureZoom="gestureZoomHandler(event)" mouseUp="onScrollerMouseUp( event )">
+		<s:Group id="scrollerContent" horizontalScrollPosition="2048" verticalScrollPosition="2048">
+			<s:SpriteVisualElement id="canvas" width="4096" height="4096" mouseDown="onCanvasMouseDown( event )" />
+		</s:Group>
+	</s:Scroller>
 	
 	<s:TextInput id="titleInput" left="20" right="20" top="5" contentBackgroundAlpha="0" borderVisible="false" textAlign="center" color="#464F4E" fontWeight="bold" />
 	<s:Line left="20" right="20" top="62">
