@@ -1,11 +1,11 @@
 ﻿package net.joyfl.evermind.node {
+	import flash.display.Bitmap;
+	import flash.display.BitmapData;
 	import flash.display.Shape;
+	import flash.display.Sprite;
 	import flash.geom.Point;
 	import flash.text.TextField;
 	import flash.text.TextFieldAutoSize;
-	import flash.display.BitmapData;
-	import flash.display.Bitmap;
-	import flash.display.Sprite;
 	import flash.text.TextFieldType;
 	
 	/**
@@ -15,7 +15,8 @@
 	 * @author 천성혁 ( Seong-Hyeok Cheon ), cjstjdgur123@naver.com, http://blog.shipnk.com/
 	 */
 	
-	public class NodeContainer {
+	public class NodeContainer extends Object {
+		
 		
 		/**
 		 * 포함하고 있는 노드들을 배열로 담는다.
@@ -377,6 +378,16 @@
 											a2.x - (a2.x-a1.x) * num, a2.y,
 											a2.x, a2.y );
 			}
+		}
+		
+		public function clone () :NodeContainer
+		{
+			var data:NodeContainer = new NodeContainer( this.x, this.y, this.title, this.color, this.media );
+			for each ( var nd:NodeData in this.children )
+			{
+				data.addNode( nd.clone() as NodeData );
+			}
+			return data;
 		}
 		
 	}
