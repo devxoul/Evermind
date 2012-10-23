@@ -72,6 +72,12 @@
 				trace( "Overflow" );
 			}
 			
+			private function onRemoveButtonClick ( e : MouseEvent ) : void
+			{
+				trace( 'remvoe' );
+				nodeController.removeSelectedNode();
+			}
+			
 			protected function gestureZoomHandler( e : TransformGestureEvent ) : void
 			{
 				nodeScale *= ( e.scaleX + e.scaleY ) / 2;
@@ -86,9 +92,10 @@
 	</fx:Script>
 	
 	<s:navigationContent>
-		<e:ActionBarButton image="@Embed('/../res/button_undo.png')" backgroundImage="@Embed('/../res/bottom_actionbar_button_bg.png')" click="onUndoButtonClick( event )" />
-		<e:ActionBarButton image="@Embed('/../res/button_redo.png')" backgroundImage="@Embed('/../res/bottom_actionbar_button_bg.png')" click="onRedoButtonClick( event )" />
-		<e:ActionBarButton image="@Embed('/../res/button_media.png')" backgroundImage="@Embed('/../res/bottom_actionbar_button_bg.png')" click="onMediaButtonClick( event )" />
+		<e:ActionBarButton id="undoBtn" image="@Embed('/../res/button_undo.png')" backgroundImage="@Embed('/../res/bottom_actionbar_button_bg.png')" click="onUndoButtonClick( event )" />
+		<e:ActionBarButton id="redoBtn" image="@Embed('/../res/button_redo.png')" backgroundImage="@Embed('/../res/bottom_actionbar_button_bg.png')" click="onRedoButtonClick( event )" />
+		<e:ActionBarButton id="mediaBtn" image="@Embed('/../res/button_media.png')" backgroundImage="@Embed('/../res/bottom_actionbar_button_bg.png')" click="onMediaButtonClick( event )" />
+		<e:ActionBarButton id="removeBtn" image="@Embed('/../res/button_media.png')" backgroundImage="@Embed('/../res/bottom_actionbar_button_bg.png')" click="onRemoveButtonClick( event )" />
 	</s:navigationContent>
 	
 	<s:actionContent>
