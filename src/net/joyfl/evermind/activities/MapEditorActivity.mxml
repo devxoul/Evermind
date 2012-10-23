@@ -23,7 +23,6 @@
 			private var nodeScale:Number;
 			private var nodeViewContainer:Sprite;
 			private var nodeView:NodeView;
-			private var nodeContainer:NodeContainer;
 			private var nodeController:NodeController;
 			
 			private function init() : void
@@ -74,7 +73,7 @@
 			
 			private function onRemoveButtonClick ( e : MouseEvent ) : void
 			{
-				trace( 'remvoe' );
+				trace( 'remove' );
 				nodeController.removeSelectedNode();
 			}
 			

@@ -1,6 +1,8 @@
 ﻿package net.joyfl.evermind.node {
-	import flash.display.Sprite;
+	import flash.display.BitmapData;
 	import flash.display.Shape;
+	import flash.display.Sprite;
+	import flash.geom.Matrix;
 	
 	/**
 	 * NodeView
@@ -38,6 +40,18 @@
 			lineShape.graphics.clear();
 			container.drawLine( this, lineShape );
 			
+		}
+		
+		/**
+		 */
+		public function getSnapshot ():BitmapData
+		{
+			var matrix:Matrix = new Matrix;
+			var bitmap:BitmapData = new BitmapData( 900, 400, false, 0xFFFFFF );
+			matrix.scale( 0.8, 0.8 );
+			matrix.translate( 900 / 2, 400 / 2 );
+			bitmap.draw( this, matrix );
+			return bitmap;
 		}
 		
 	}
