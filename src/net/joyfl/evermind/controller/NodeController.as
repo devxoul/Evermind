@@ -132,9 +132,10 @@
 				if( selectedNode == null )
 				{
 					p = new Point( (view.mouseX - mouseDownPoint.x), (view.mouseY - mouseDownPoint.y) );
-					view.x += p.x * 1.5;
-					view.y += p.y * 1.5;
-					slideSpeed = p;
+					view.x += p.x;
+					view.y += p.y;
+					slideSpeed.x += (p.x-slideSpeed.x)*0.6;
+					slideSpeed.y += (p.y-slideSpeed.y)*0.6;
 					mouseDownPoint.x = view.mouseX;
 					mouseDownPoint.y = view.mouseY;
 					return;
