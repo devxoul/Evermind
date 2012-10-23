@@ -4,8 +4,10 @@ package net.joyfl.evermind.events
 	
 	public class EvermindEvent extends Event
 	{
-		static public const LIST_MAPS : String = "EvermindEvent_ListMaps";
-		static public const GET_MAP : String = "EvermindEvent_GetMap";
+		static public const LIST_MAPS : String = "EvermindEvent_listMaps";
+		static public const GET_MAP : String = "EvermindEvent_getMap";
+		static public const CREATE_MAP : String = "EvermindEvent_createMap";
+		static public const SET_MAP : String = "EvermindEvent_setMap";
 		
 		public var data : Object;
 		
