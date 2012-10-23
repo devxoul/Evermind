@@ -13,7 +13,6 @@
 			import net.joyfl.evermind.events.EvermindEvent;
 			import net.joyfl.evermind.loader.MapLoader;
 			import net.joyfl.evermind.models.Map;
-			import net.joyfl.evermind.node.NodeContainer;
 			import net.joyfl.evermind.node.NodeView;
 			
 			private var _loader : MapLoader = new MapLoader();
