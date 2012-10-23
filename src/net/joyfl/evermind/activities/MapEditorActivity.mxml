@@ -3,6 +3,8 @@
 		xmlns:s="library://ns.adobe.com/flex/spark"
 		xmlns:e="net.joyfl.evermind.components.*"
 		creationComplete="init()"
+		gestureZoom="gestureZoomHandler(event)"
+		enterFrame="enterFrameHandler(event)"
 		mouseDown="/*stage.focus = null*/">
 	
 	<fx:Script>
@@ -18,6 +20,7 @@
 			
 			private var _map : Map;
 			
+			private var nodeScale:Number;
 			private var nodeViewContainer:Sprite;
 			private var nodeView:NodeView;
 			private var nodeContainer:NodeContainer;
@@ -25,6 +28,7 @@
 			
 			private function init() : void
 			{
+				nodeScale = 1;
 				_loader.addEventListener( EvermindEvent.GET_MAP, onGetMap );
 				_loader.getMap( data.mapId );
 			}
@@ -67,6 +71,17 @@
 			{
 				trace( "Overflow" );
 			}
+			
+			protected function gestureZoomHandler( e : TransformGestureEvent ) : void
+			{
+				nodeScale *= ( e.scaleX + e.scaleY ) / 2;
+			}
+			
+			protected function enterFrameHandler ( e : Event ) : void
+			{
+				nodeViewContainer.scaleX = nodeViewContainer.scaleY += (nodeScale-nodeViewContainer.scaleY) * 0.5;
+			}
+			
 		]]>
 	</fx:Script>
 	
@@ -77,7 +92,7 @@
 	</s:navigationContent>
 	
 	<s:actionContent>
-		<e:ActionBarButton image="@Embed('/../res/button_overflow.png')" backgroundImage="@Embed('/../res/bottom_actionbar_button_bg.png')" click="onOverflowButtonClick( event )" />
+		<e:ActionBarButton image="@Embed('/../res/button_overflow_green.png')" backgroundImage="@Embed('/../res/bottom_actionbar_button_bg.png')" click="onOverflowButtonClick( event )" />
 	</s:actionContent>
 	
 	<s:SpriteVisualElement id="canvas" width="100%" height="100%" />
