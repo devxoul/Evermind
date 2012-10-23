@@ -33,7 +33,7 @@ package net.joyfl.evermind.loader
 			onGetMap( null ); // temp
 		}
 		
-		public function createMap( metadata : MapMetadata ) : void
+		public function createMap() : void
 		{
 			_loader.addEventListener( Event.COMPLETE, onCreateMap );
 			onCreateMap( null ); // temp
@@ -51,19 +51,21 @@ package net.joyfl.evermind.loader
 			_loader.removeEventListener( Event.COMPLETE, onListMap );
 			
 			var xml : XML = new XML(
-				<data>
+				<result>
 					<status>
 						<code>0</code>
 						<message></message>
 					</status>
-					<maps>
-						<map id="ID1" title="Title1" created="Created1" modified="Modified1" />
-						<map id="ID2" title="Title2" created="Created2" modified="Modified2" />
-						<map id="ID3" title="Title3" created="Created3" modified="Modified3" />
-						<map id="ID4" title="Title4" created="Created4" modified="Modified4" />
-						<map id="ID5" title="Title5" created="Created5" modified="Modified5" />
-					</maps>
-				</data>
+					<data>
+						<maps>
+							<map id="ID1" title="Title1" created="Created1" modified="Modified1" />
+							<map id="ID2" title="Title2" created="Created2" modified="Modified2" />
+							<map id="ID3" title="Title3" created="Created3" modified="Modified3" />
+							<map id="ID4" title="Title4" created="Created4" modified="Modified4" />
+							<map id="ID5" title="Title5" created="Created5" modified="Modified5" />
+						</maps>
+					</data>
+				</result>
 			);
 			
 			if( xml.status.code != 0 )
@@ -91,7 +93,7 @@ package net.joyfl.evermind.loader
 			_loader.removeEventListener( Event.COMPLETE, onGetMap );
 			
 			var xml : XML = new XML(
-				<data>
+				<result>
 					<status>
 						<code>0</code>
 						<message></message>
@@ -114,7 +116,7 @@ package net.joyfl.evermind.loader
 							</node>
 						</map>
 					</data>
-				</data>
+				</result>
 			);
 			
 			if( xml.status.code != 0 )
@@ -142,12 +144,15 @@ package net.joyfl.evermind.loader
 			_loader.removeEventListener( Event.COMPLETE, onCreateMap );
 			
 			var xml : XML = new XML(
-				<data>
+				<result>
 					<status>
 						<code>0</code>
 						<message></message>
 					</status>
-				</data>
+					<data>
+						<map id="ID1" created="Created1" />
+					</data>
+				</result>
 			);
 			
 			if( xml.status.code != 0 )
@@ -155,7 +160,11 @@ package net.joyfl.evermind.loader
 				trace( "[MapLoader.onCreateMap()] Error" );
 			}
 			
-			dispatchEvermindEvent( EvermindEvent.CREATE_MAP, true );
+			var metadata : MapMetadata = new MapMetadata();
+			metadata.mapId = xml..map.@id;
+			metadata.created = xml..map.@created;
+			
+			dispatchEvermindEvent( EvermindEvent.CREATE_MAP, metadata );
 		}
 		
 		private function onSetMap( e : EvermindEvent ) : void
@@ -163,12 +172,12 @@ package net.joyfl.evermind.loader
 			_loader.removeEventListener( Event.COMPLETE, onSetMap );
 			
 			var xml : XML = new XML(
-				<data>
+				<result>
 					<status>
 						<code>0</code>
 						<message></message>
 					</status>
-				</data>
+				</result>
 			);
 			
 			if( xml.status.code != 0 )

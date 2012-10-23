@@ -19,6 +19,7 @@
 			private function init() : void
 			{
 				_loader.addEventListener( EvermindEvent.LIST_MAPS, onListMaps );
+				_loader.addEventListener( EvermindEvent.CREATE_MAP, onCreateMap );
 				_loader.listMaps();
 			}
 			
@@ -40,7 +41,12 @@
 			
 			private function onAddButtonClick( e : MouseEvent ) : void
 			{
-				trace( "Add" );
+				_loader.createMap();
+			}
+			
+			private function onCreateMap( e : EvermindEvent ) : void
+			{
+				navigator.pushView( MapEditorActivity, {mapId: e.data.mapId} );
 			}
 			
 			private function onAlignButtonClick( e : MouseEvent ) : void
