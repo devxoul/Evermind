@@ -14,9 +14,9 @@
 			private var _textFieldActivatedClass : Class;
 			[Bindable] private var textFieldActivatedImage : Object = new _textFieldActivatedClass();
 			
-			private function onSignInButtonClick( e : MouseEvent ) : void
+			private function onSignUpButtonClick( e : MouseEvent ) : void
 			{
-				trace( 'sign in' );
+				trace( 'sign up' );
 			}
 		]]>
 	</fx:Script>
@@ -64,5 +64,5 @@
 	</s:VGroup>
 	
 	<e:ImageButton left="20" right="20" bottom="345" normalStateImage="@Embed('/../res/button_normal.png')" highlightedStateImage="@Embed('/../res/button_pressed.png')"
-				   text="로그인" color="0x464F4E" fontSize="24" click="onSignInButtonClick( event )" />
+				   text="가입하기" color="0x464F4E" fontSize="24" click="onSignUpButtonClick( event )" />
 </s:View>
