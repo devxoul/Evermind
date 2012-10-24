@@ -42,8 +42,12 @@
 		</s:fill>
 	</s:Rect>
 	
-	<s:VGroup>
-		<e:ImageButton normalStateImage="@Embed('/../res/button_add.png')" click="onSignUpButtonClick( event )" />
-		<e:ImageButton normalStateImage="@Embed('/../res/button_add.png')" click="onSignInButtonClick( event )" />
+	<s:Image source="@Embed('/../res/splash_icon.png')" horizontalCenter="0" verticalCenter="-100" />
+	
+	<s:VGroup left="20" right="20" bottom="44">
+		<e:ImageButton normalStateImage="@Embed('/../res/button_normal.png')" highlightedStateImage="@Embed('/../res/button_pressed.png')"
+					   text="새로운 계정 만들기" color="0x464F4E" fontSize="24" click="onSignUpButtonClick( event )" />
+		<e:ImageButton normalStateImage="@Embed('/../res/button_normal.png')" highlightedStateImage="@Embed('/../res/button_pressed.png')"
+					   text="로그인하기" color="0x464F4E" fontSize="24" click="onSignInButtonClick( event )" />
 	</s:VGroup>
 </s:View>
