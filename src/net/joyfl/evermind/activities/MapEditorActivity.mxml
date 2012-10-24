@@ -3,11 +3,13 @@
 		xmlns:s="library://ns.adobe.com/flex/spark"
 		xmlns:e="net.joyfl.evermind.components.*"
 		creationComplete="init()"
-		enterFrame="enterFrameHandler(event)"
-		mouseDown="/*stage.focus = null*/">
+		mouseDown="/*stage.focus = null*/"
+		backKeyPressed="onBackKeyPressed( event )">
 	
 	<fx:Script>
 		<![CDATA[
+			import mx.events.FlexEvent;
+			
 			import net.joyfl.evermind.controller.NodeController;
 			import net.joyfl.evermind.events.EvermindEvent;
 			import net.joyfl.evermind.loader.MapLoader;
@@ -23,9 +25,15 @@
 			private var nodeView:NodeView;
 			private var nodeController:NodeController;
 			
+			/**
+			 * 뒤로가기 버튼 클릭 후 onSetMap에서 _back이 true일 경우 리스트로 돌아감
+			 */
+			private var _back : Boolean;
+			
 			private function init() : void
 			{
 				nodeScale = 1;
+				
 				_loader.addEventListener( EvermindEvent.GET_MAP, onGetMap );
 				_loader.addEventListener( EvermindEvent.SET_MAP, onSetMap );
 				_loader.getMap( data.mapId );
@@ -48,6 +56,8 @@
 				nodeViewContainer.y = canvas.height / 2;
 				
 				canvas.addChild( nodeViewContainer );
+				
+				addEventListener( Event.ENTER_FRAME, enterFrameHandler );
 			}
 			
 			private function onSaveButtonClick( e : MouseEvent ) : void
@@ -59,7 +69,12 @@
 			private function onSetMap( e : EvermindEvent ) : void
 			{
 				if( e.data == true )
+				{
 					trace( "저장됨" );
+					
+					if( _back )
+						navigator.popView();
+				}
 			}
 			
 			private function onEditButtonClick( e : MouseEvent ) : void
@@ -113,6 +128,13 @@
 				scroller.setStyle( "verticalScrollPolicy", "on" );
 			}
 			
+			private function onBackKeyPressed( e : FlexEvent ) : void
+			{
+				e.preventDefault();
+				
+				_back = true;
+				_loader.setMap( _map );
+			}
 		]]>
 	</fx:Script>
 	
