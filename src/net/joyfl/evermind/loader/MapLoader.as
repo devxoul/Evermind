@@ -80,6 +80,7 @@ package net.joyfl.evermind.loader
 				map.title = mapXML.@title;
 				map.created = mapXML.@created;
 				map.modified = mapXML.@modified;
+				map.loadThumbnail();
 				
 				maps.push( map );
 			}
