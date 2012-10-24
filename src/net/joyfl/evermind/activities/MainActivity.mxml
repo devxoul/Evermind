@@ -26,7 +26,7 @@
 			
 			private function onSignInButtonClick( e : MouseEvent ) : void
 			{
-				
+				navigator.pushView( SignInActivity );
 			}
 		]]>
 	</fx:Script>
