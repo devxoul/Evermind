@@ -15,6 +15,10 @@
 		<!-- backgroundImage -->
 		<fx:Object id="normalStateBackgroundImage">{null}</fx:Object>
 		<fx:Object id="highlightedStateBackgroundImage">{normalStateBackgroundImage}</fx:Object>
+		
+		<fx:String id="text" />
+		<fx:uint id="color">0</fx:uint>
+		<fx:int id="fontSize">24</fx:int>
 	</fx:Declarations>
 	
 	<s:states>
@@ -28,4 +32,8 @@
 	<!-- image -->
 	<s:BitmapImage horizontalCenter="0" verticalCenter="0"
 				   source.normal="{normalStateImage}" source.highlighted="{highlightedStateImage}" />
+	
+	<!-- text -->
+	<s:Label id="label" horizontalCenter="0" verticalCenter="0" textAlign="center"
+			 text="{text}" color="{color}" fontSize="{fontSize}" />
 </s:Group>

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		xmlns:s="library://ns.adobe.com/flex/spark"
+		xmlns:e="net.joyfl.evermind.components.*"
+		title="SignUpActivity" actionBarVisible="false">
+	
+	<fx:Script>
+		<![CDATA[
+			[Embed( source='/../res/textfield_normal.png', scaleGridLeft='2', scaleGridRight='4', scaleGridTop='0', scaleGridBottom='7' )]
+			private var _textFieldNormalClass : Class;
+			[Bindable] private var textFieldNormalImage : Object = new _textFieldNormalClass();
+			
+			[Embed( source='/../res/textfield_activated.png', scaleGridLeft='2', scaleGridRight='4', scaleGridTop='0', scaleGridBottom='7' )]
+			private var _textFieldActivatedClass : Class;
+			[Bindable] private var textFieldActivatedImage : Object = new _textFieldActivatedClass();
+			
+			private function onSignUpButtonClick( e : MouseEvent ) : void
+			{
+				trace( 'sign up' );
+			}
+		]]>
+	</fx:Script>
+	
+	<s:Rect left="0" right="0" top="0" bottom="0">
+		<s:fill>
+			<s:LinearGradient rotation="90">
+				<s:entries>
+					<s:GradientEntry color="0x82E5DC" ratio="0" />
+					<s:GradientEntry color="0x40C1B5" ratio="1" />
+				</s:entries>
+			</s:LinearGradient>
+		</s:fill>
+	</s:Rect>
+	
+	<s:VGroup left="20" right="20" top="50" gap="-10">
+		<s:Label text="새 계정 만들기" color="0x464F4E" fontSize="28" fontWeight="bold" />
+		<s:Spacer height="30" />
+		<s:Line width="100%">
+			<s:stroke>
+				<s:SolidColorStroke color="0x42A79F" weight="2" caps="square" />
+			</s:stroke>
+		</s:Line>
+		
+		<s:Spacer height="40" />
+		
+		<e:PlaceholderTextInput placeholderText="이메일" color="0x234340" placeholderColor="0x47928B" fontSize="24"
+								focusIn="emailInputLine.source = textFieldActivatedImage"
+								focusOut="emailInputLine.source = textFieldNormalImage" />
+		<s:Image id="emailInputLine" source="{textFieldNormalImage}" width="100%" />
+		
+		<s:Spacer height="30" />
+		
+		<e:PlaceholderTextInput placeholderText="비밀번호" color="0x234340" placeholderColor="0x47928B" fontSize="24" displayAsPassword="true"
+								focusIn="passwordInputLine.source = textFieldActivatedImage"
+								focusOut="passwordInputLine.source = textFieldNormalImage" />
+		<s:Image id="passwordInputLine" source="{textFieldNormalImage}" width="100%" />
+		
+		<s:Spacer height="30" />
+		
+		<e:PlaceholderTextInput placeholderText="비밀번호 확인" color="0x234340" placeholderColor="0x47928B" fontSize="24" displayAsPassword="true"
+								focusIn="verifyInputLine.source = textFieldActivatedImage"
+								focusOut="verifyInputLine.source = textFieldNormalImage" />
+		<s:Image id="verifyInputLine" source="{textFieldNormalImage}" width="100%" />
+	</s:VGroup>
+	
+	<e:ImageButton left="20" right="20" bottom="278" normalStateImage="@Embed('/../res/button_normal.png')" highlightedStateImage="@Embed('/../res/button_pressed.png')"
+				   text="가입하기" color="0x464F4E" fontSize="24" click="onSignUpButtonClick( event )" />
+</s:View>

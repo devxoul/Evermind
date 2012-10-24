@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		xmlns:s="library://ns.adobe.com/flex/spark"
+		xmlns:e="net.joyfl.evermind.components.*"
+		title="SignUpActivity" actionBarVisible="false" initialize="init()">
+	
+	<fx:Script>
+		<![CDATA[
+			import net.joyfl.evermind.preference.Preference;
+			import net.joyfl.evermind.preference.PreferenceKey;
+			
+			private function init() : void
+			{
+				// Already logged in
+				if( Preference.getValue( PreferenceKey.EMAIL ) && Preference.getValue( PreferenceKey.PASSWORD ) )
+				{
+					navigator.popView();
+					navigator.pushView( MapListActivity );
+				}
+			}
+			
+			private function onSignUpButtonClick( e : MouseEvent ) : void
+			{
+				navigator.pushView( SignUpActivity );
+			}
+			
+			private function onSignInButtonClick( e : MouseEvent ) : void
+			{
+				
+			}
+		]]>
+	</fx:Script>
+	
+	<s:Rect left="0" right="0" top="0" bottom="0">
+		<s:fill>
+			<s:LinearGradient rotation="90">
+				<s:entries>
+					<s:GradientEntry color="0x82E5DC" ratio="0" />
+					<s:GradientEntry color="0x40C1B5" ratio="1" />
+				</s:entries>
+			</s:LinearGradient>
+		</s:fill>
+	</s:Rect>
+	
+	<s:VGroup>
+		<e:ImageButton normalStateImage="@Embed('/../res/button_add.png')" click="onSignUpButtonClick( event )" />
+		<e:ImageButton normalStateImage="@Embed('/../res/button_add.png')" click="onSignInButtonClick( event )" />
+	</s:VGroup>
+</s:View>

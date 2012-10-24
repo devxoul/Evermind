@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:TextInput xmlns:fx="http://ns.adobe.com/mxml/2009" 
+			 xmlns:s="library://ns.adobe.com/flex/spark"
+			 text="" contentBackgroundAlpha="0" borderVisible="false" focusAlpha="0"
+			 creationComplete="init()" focusIn="onFocusIn( event )" focusOut="onFocusOut( event )">
+	
+	<fx:Declarations>
+		<fx:String id="placeholderText" />
+		<fx:uint id="placeholderColor" />
+	</fx:Declarations>
+	
+	<fx:Script>
+		<![CDATA[
+			private var _textColor : uint;
+			private var _displayAsPassword : Boolean;
+			
+			private function init() : void
+			{
+				_textColor = getStyle( "color" );
+				
+				_displayAsPassword = displayAsPassword;
+				displayAsPassword = false;
+				
+				this.text = placeholderText;
+				setStyle( "color", placeholderColor );
+			}
+			
+			private function onFocusIn( e : FocusEvent ) : void
+			{
+				if( text == placeholderText && getStyle( "color" ) == placeholderColor )
+				{
+					text = "";
+					setStyle( "color", _textColor );
+					displayAsPassword = _displayAsPassword;
+				}
+			}
+			
+			private function onFocusOut( e : FocusEvent ) : void
+			{
+				if( text == "" && getStyle( "color" ) == _textColor )
+				{
+					text = placeholderText;
+					setStyle( "color", placeholderColor );
+					displayAsPassword = false;
+				}
+			}
+		]]>
+	</fx:Script>
+	
+</s:TextInput>

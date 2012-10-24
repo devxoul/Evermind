@@ -93,9 +93,12 @@
 		</s:HGroup>
 		
 		<s:HGroup left="0" right="0" height="72" verticalCenter="0" horizontalAlign="right" gap="0">
+			<!--
 			<e:ActionBarButton image="@Embed('/../res/button_align.png')" backgroundImage="@Embed('/../res/bottom_actionbar_button_bg.png')" alpha="0.6" click="onAlignButtonClick( event )" />
 			<e:ActionBarButton image="@Embed('/../res/button_search.png')" backgroundImage="@Embed('/../res/bottom_actionbar_button_bg.png')" alpha="0.6" click="onSearchButtonClick( event )" />
-			<e:ActionBarButton image="@Embed('/../res/button_overflow_gray.png')" backgroundImage="@Embed('/../res/bottom_actionbar_button_bg.png')" alpha="0.6" click="onOverflowButtonClick( event )" />
+			-->
+			<e:ActionBarButton image="@Embed('/../res/button_settings.png')" backgroundImage="@Embed('/../res/bottom_actionbar_button_bg.png')" alpha="0.6" click="onOverflowButtonClick( event )" />
 		</s:HGroup>
+		
 	</s:Group>
 </s:View>
