@@ -6,11 +6,11 @@
 	
 	<fx:Script>
 		<![CDATA[
-			[Embed( source='/../res/textfield_normal.png', scaleGridLeft='2', scaleGridRight='4', scaleGridTop='0', scaleGridBottom='7' )]
+			[Embed( source='/../res/textfield_normal.png', scaleGridLeft='4', scaleGridRight='438', scaleGridTop='0', scaleGridBottom='7' )]
 			private var _textFieldNormalClass : Class;
 			[Bindable] private var textFieldNormalImage : Object = new _textFieldNormalClass();
 			
-			[Embed( source='/../res/textfield_activated.png', scaleGridLeft='2', scaleGridRight='4', scaleGridTop='0', scaleGridBottom='7' )]
+			[Embed( source='/../res/textfield_activated.png', scaleGridLeft='6', scaleGridRight='436', scaleGridTop='0', scaleGridBottom='9' )]
 			private var _textFieldActivatedClass : Class;
 			[Bindable] private var textFieldActivatedImage : Object = new _textFieldActivatedClass();
 			
@@ -46,21 +46,21 @@
 		<e:PlaceholderTextInput placeholderText="이메일" color="0x234340" placeholderColor="0x47928B" fontSize="24"
 								focusIn="emailInputLine.source = textFieldActivatedImage"
 								focusOut="emailInputLine.source = textFieldNormalImage" />
-		<s:Image id="emailInputLine" source="{textFieldNormalImage}" width="100%" />
+		<s:Image id="emailInputLine" source="{textFieldNormalImage}" horizontalCenter="0" />
 		
 		<s:Spacer height="30" />
 		
 		<e:PlaceholderTextInput placeholderText="비밀번호" color="0x234340" placeholderColor="0x47928B" fontSize="24" displayAsPassword="true"
 								focusIn="passwordInputLine.source = textFieldActivatedImage"
 								focusOut="passwordInputLine.source = textFieldNormalImage" />
-		<s:Image id="passwordInputLine" source="{textFieldNormalImage}" width="100%" />
+		<s:Image id="passwordInputLine" source="{textFieldNormalImage}" horizontalCenter="0" />
 		
 		<s:Spacer height="30" />
 		
 		<e:PlaceholderTextInput placeholderText="비밀번호 확인" color="0x234340" placeholderColor="0x47928B" fontSize="24" displayAsPassword="true"
 								focusIn="verifyInputLine.source = textFieldActivatedImage"
 								focusOut="verifyInputLine.source = textFieldNormalImage" />
-		<s:Image id="verifyInputLine" source="{textFieldNormalImage}" width="100%" />
+		<s:Image id="verifyInputLine" source="{textFieldNormalImage}" horizontalCenter="0" />
 	</s:VGroup>
 	
 	<e:ImageButton left="20" right="20" bottom="278" normalStateImage="@Embed('/../res/button_normal.png')" highlightedStateImage="@Embed('/../res/button_pressed.png')"
