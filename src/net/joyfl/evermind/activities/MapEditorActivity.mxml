@@ -27,6 +27,7 @@
 			{
 				nodeScale = 1;
 				_loader.addEventListener( EvermindEvent.GET_MAP, onGetMap );
+				_loader.addEventListener( EvermindEvent.SET_MAP, onSetMap );
 				_loader.getMap( data.mapId );
 			}
 			
@@ -51,7 +52,14 @@
 			
 			private function onSaveButtonClick( e : MouseEvent ) : void
 			{
-				
+				_map.metadata.thumbnail = nodeView.getSnapshot();
+				_loader.setMap( _map );
+			}
+			
+			private function onSetMap( e : EvermindEvent ) : void
+			{
+				if( e.data == true )
+					trace( "저장됨" );
 			}
 			
 			private function onEditButtonClick( e : MouseEvent ) : void
