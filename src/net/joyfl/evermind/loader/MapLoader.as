@@ -7,8 +7,7 @@ package net.joyfl.evermind.loader
 	import net.joyfl.evermind.events.EvermindEvent;
 	import net.joyfl.evermind.models.Map;
 	import net.joyfl.evermind.models.MapMetadata;
-	import net.joyfl.evermind.node.NodeContainer;
-	import net.joyfl.evermind.node.NodeData;
+	import net.joyfl.evermind.utils.xml2node;
 	
 	public class MapLoader extends EventDispatcher
 	{
@@ -132,9 +131,7 @@ package net.joyfl.evermind.loader
 			
 			var map : Map = new Map();
 			map.metadata = metadata;
-			map.node = new NodeContainer( 0, 0, xml..node[0].@label, xml..node[0].@color );
-			
-			addChildNodesFromXML( map.node, xml..node[0].node );
+			map.node = xml2node( xml..map );
 			
 			dispatchEvermindEvent( EvermindEvent.GET_MAP, map );
 		}
@@ -186,20 +183,6 @@ package net.joyfl.evermind.loader
 			}
 			
 			dispatchEvermindEvent( EvermindEvent.SET_MAP, true );
-		}
-		
-		
-		private function addChildNodesFromXML( parentNode : NodeContainer, parentNodeXML : XMLList ) : void
-		{
-			for each( var childNodeXML : XML in parentNodeXML )
-			{
-				var childNode : NodeData = new NodeData( childNodeXML.@x, childNodeXML.@y, childNodeXML.@label );
-				
-				if( childNodeXML.node )
-					addChildNodesFromXML( childNode, childNodeXML.node );
-				
-				parentNode.addNode( childNode );
-			}
 		}
 		
 		private function dispatchEvermindEvent( type : String, data : Object ) : void
