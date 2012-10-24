@@ -155,7 +155,7 @@
 	</s:actionContent>
 	
 	<s:Scroller id="scroller" top.title="65" top.noTitle="0" width="100%" height="100%" gestureZoom="gestureZoomHandler(event)" mouseUp="onScrollerMouseUp( event )">
-		<s:Group id="scrollerContent" horizontalScrollPosition="2048" verticalScrollPosition="2048">
+		<s:Group id="scrollerContent" horizontalScrollPosition="1808" verticalScrollPosition="1748">
 			<s:SpriteVisualElement id="canvas" width="4096" height="4096" mouseDown="onCanvasMouseDown( event )" />
 		</s:Group>
 	</s:Scroller>
