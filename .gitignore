@@ -14,3 +14,7 @@ Evermind.apk
 bin-debug/Evermind.apk
 
 bin-debug/Evermind-app.xml
+
+bin-release-temp/Evermind-app.xml
+
+bin-release-temp/Evermind.swf
