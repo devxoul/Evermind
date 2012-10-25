@@ -1,35 +1,72 @@
 package net.joyfl.evermind.loader
 {
-	import flash.display.Loader;
 	import flash.events.Event;
 	import flash.events.EventDispatcher;
+	import flash.events.IOErrorEvent;
+	import flash.net.URLLoader;
+	import flash.net.URLRequest;
+	import flash.net.URLRequestMethod;
+	import flash.net.URLVariables;
 	
 	import net.joyfl.evermind.events.EvermindEvent;
 	import net.joyfl.evermind.models.Map;
 	import net.joyfl.evermind.models.MapMetadata;
+	import net.joyfl.evermind.preference.Preference;
+	import net.joyfl.evermind.preference.PreferenceKey;
+	import net.joyfl.evermind.utils.Base64;
 	import net.joyfl.evermind.utils.xml2node;
 	
 	public class MapLoader extends EventDispatcher
 	{
-		private const API_BASE_URL : String = "";
+		private const API_BASE_URL : String = "http://ec2.jagur.kr/api.php";
 		
-		private var _loader : Loader = new Loader();
+		private var _loader : URLLoader = new URLLoader();
 		
 		public function MapLoader()
 		{
+			_loader.addEventListener( IOErrorEvent.IO_ERROR, onIOError );
+		}
+		
+		private function onIOError( e : IOErrorEvent ) : void
+		{
+			trace( e );
+		}
+		
+		public function auth( email : String, password : String ) : void
+		{
+			_loader.addEventListener( Event.COMPLETE, onAuth );
+			var url : String = API_BASE_URL + "?url=auth&email=" + email + "&password=" + password;
+			var req : URLRequest = new URLRequest( url );
+			_loader.load( req );
+		}
+		
+		private function api( command : String, method : String, params : Object = null ) : void
+		{
+			var url : String = API_BASE_URL + "?url=" + command + "&access_token=" + Preference.getValue( PreferenceKey.ACCESS_TOKEN );
+			trace( url );
+			var vars : URLVariables = params ? new URLVariables() : null;
+			for( var key : String in params )
+			{
+				vars[key] = params[key];
+			}
 			
+			var req : URLRequest = new URLRequest( url );
+			req.data = vars;
+			req.method = method;
+			
+			_loader.load( req );
 		}
 		
 		public function listMaps() : void
 		{
 			_loader.addEventListener( Event.COMPLETE, onListMap );
-			onListMap( null ); // temp
+			api( "list", URLRequestMethod.GET );
 		}
 		
 		public function getMap( mapId : String ) : void
 		{
 			_loader.addEventListener( Event.COMPLETE, onGetMap );
-			onGetMap( null ); // temp
+			api( "map/" + mapId, URLRequestMethod.GET );
 		}
 		
 		public function createMap() : void
@@ -45,44 +82,42 @@ package net.joyfl.evermind.loader
 		}
 		
 		
+		
+		private function onAuth( e : Event ) : void
+		{
+			_loader.removeEventListener( Event.COMPLETE, onAuth );
+			
+			var json : Object = JSON.parse( e.target.data );
+			if( json.status.code != 0 )
+			{
+				trace( "[MapLoader.onAuth()] Error" );
+			}
+			
+			dispatchEvermindEvent( EvermindEvent.AUTH, json.data );
+		}
+		
 		private function onListMap( e : Event ) : void
 		{
 			_loader.removeEventListener( Event.COMPLETE, onListMap );
 			
-			var xml : XML = new XML(
-				<result>
-					<status>
-						<code>0</code>
-						<message></message>
-					</status>
-					<data>
-						<maps>
-							<map id="ID1" title="Title1" created="Created1" modified="Modified1" />
-							<map id="ID2" title="Title2" created="Created2" modified="Modified2" />
-							<map id="ID3" title="Title3" created="Created3" modified="Modified3" />
-							<map id="ID4" title="Title4" created="Created4" modified="Modified4" />
-							<map id="ID5" title="Title5" created="Created5" modified="Modified5" />
-						</maps>
-					</data>
-				</result>
-			);
+			var json : Object = JSON.parse( e.target.data );
 			
-			if( xml.status.code != 0 )
+			if( json.status.code != 0 )
 			{
 				trace( "[MapLoader.onListMap()] Error" );
 			}
 			
-			var maps : Array = [];
-			for each( var mapXML : XML in xml..map )
+			var maps: Array = [];
+			for each( var map : Object in json.data.maps )
 			{
-				var map : MapMetadata = new MapMetadata();
-				map.mapId = mapXML.@id;
-				map.title = mapXML.@title;
-				map.created = mapXML.@created;
-				map.modified = mapXML.@modified;
-				map.loadThumbnail();
+				var metadata : MapMetadata = new MapMetadata();
+				metadata.mapId = map.map_id;
+				metadata.title = map.map_name;
+				metadata.created = map.created_time;
+				metadata.modified = map.modified_time;
+				metadata.loadThumbnail( map.base_url + map.thumbnail );
 				
-				maps.push( map );
+				maps.push( metadata );
 			}
 			
 			dispatchEvermindEvent( EvermindEvent.LIST_MAPS, maps );
@@ -92,47 +127,24 @@ package net.joyfl.evermind.loader
 		{
 			_loader.removeEventListener( Event.COMPLETE, onGetMap );
 			
-			var xml : XML = new XML(
-				<result>
-					<status>
-						<code>0</code>
-						<message></message>
-					</status>
-					<data>
-						<map id="devxoul_0" title="Evermind PPT" created="created" modified="modified">
-							<node label="Introducing Evermind" color="0x42A79F">
-								<node label="Features" x="125" y="-30" color="0x42A79F">
-									<node label="Good design" x="238" y="-106" color="0x42A79F" />
-									<node label="Easy to use" x="240" y="-65" color="0x42A79F" />
-									<node label="Smooth sync" x="238" y="27" color="0x42A79F" />
-								</node>
-								<node label="Team" x="130" y="100" color="0x42A79F">
-									<node label="전수열" x="240" y="82" color="0x42A79F" />
-									<node label="길형진" x="240" y="136" color="0x42A79F" />
-									<node label="천성혁" x="240" y="188" color="0x42A79F" />
-									<node label="진재규" x="240" y="246" color="0x42A79F" />
-								</node>
-								<node media="http://example.com/evermind.png" x="-60" y="0" color="0x42A79F" />
-							</node>
-						</map>
-					</data>
-				</result>
-			);
+			var json : Object = JSON.parse( e.target.data );
 			
-			if( xml.status.code != 0 )
+			if( json.status.code != 0 )
 			{
 				trace( "[MapLoader.onGetMap()] Error" );
 			}
 			
+			var xml : XML = new XML( Base64.decode( json.data.map_data.split( " " ).join( "+" ) ) );
+			
 			var metadata : MapMetadata = new MapMetadata();
-			metadata.mapId = xml..map.@id;
-			metadata.title = xml..map.@title;
-			metadata.created = xml..map.@created;
-			metadata.modified = xml..map.@modified;
+			metadata.mapId = json.data.map_id;
+			metadata.title = json.data.map_name;
+			metadata.created = json.data.created_time;
+			metadata.modified = json.data.modified_time;
 			
 			var map : Map = new Map();
 			map.metadata = metadata;
-			map.node = xml2node( xml..map );
+			map.node = xml2node( xml );
 			
 			dispatchEvermindEvent( EvermindEvent.GET_MAP, map );
 		}

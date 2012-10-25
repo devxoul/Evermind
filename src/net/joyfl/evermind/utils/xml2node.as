@@ -3,7 +3,7 @@ package net.joyfl.evermind.utils
 	import net.joyfl.evermind.node.NodeContainer;
 	import net.joyfl.evermind.node.NodeData;
 
-	public function xml2node( xml : XMLList ) : NodeContainer
+	public function xml2node( xml : Object ) : NodeContainer
 	{
 		var node : NodeContainer = new NodeContainer( 0, 0, xml..node[0].@label, xml..node[0].@color );
 		addChildNodesFromXML( node, xml..node[0].node );

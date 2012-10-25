@@ -2,10 +2,20 @@
 <s:View xmlns:fx="http://ns.adobe.com/mxml/2009" 
 		xmlns:s="library://ns.adobe.com/flex/spark"
 		xmlns:e="net.joyfl.evermind.components.*"
-		title="SignUpActivity" actionBarVisible="false">
+		title="SignUpActivity" actionBarVisible="false" initialize="init()">
 	
 	<fx:Script>
 		<![CDATA[
+			import com.adobe.crypto.SHA1;
+			
+			import net.joyfl.evermind.events.EvermindEvent;
+			import net.joyfl.evermind.loader.MapLoader;
+			import net.joyfl.evermind.preference.Preference;
+			import net.joyfl.evermind.preference.PreferenceKey;
+			
+			
+			private var _loader : MapLoader = new MapLoader();
+			
 			[Embed( source='/../res/textfield_normal.png', scaleGridLeft='4', scaleGridRight='438', scaleGridTop='0', scaleGridBottom='7' )]
 			private var _textFieldNormalClass : Class;
 			[Bindable] private var textFieldNormalImage : Object = new _textFieldNormalClass();
@@ -14,10 +24,32 @@
 			private var _textFieldActivatedClass : Class;
 			[Bindable] private var textFieldActivatedImage : Object = new _textFieldActivatedClass();
 			
+			private function init() : void
+			{
+				_loader.addEventListener( EvermindEvent.AUTH, onAuth );
+			}
+			
 			private function onSignInButtonClick( e : MouseEvent ) : void
 			{
+				emailInput.enabled = passwordInput.enabled = false;		
+				_loader.auth( emailInput.text, SHA1.hash( passwordInput.text ) );
+			}
+			
+			private function onAuth( e : EvermindEvent ) : void
+			{
+				trace( e.data.access_token );
+				Preference.setValue( PreferenceKey.ACCESS_TOKEN, e.data.access_token );
+				Preference.setValue( PreferenceKey.EXPIRE_TIME, e.data.expires );
+				Preference.setValue( PreferenceKey.EMAIL, emailInput.text );
+				Preference.setValue( PreferenceKey.PASSWORD, SHA1.hash( passwordInput.text ) );
+				
 				navigator.popAll();
 				navigator.pushView( MapListActivity );
+			}
+			
+			private function onIOError( e : IOErrorEvent ) : void
+			{
+				emailInput.enabled = passwordInput.enabled = true;
 			}
 		]]>
 	</fx:Script>
@@ -44,14 +76,14 @@
 		
 		<s:Spacer height="40" />
 		
-		<e:PlaceholderTextInput placeholderText="이메일" color="0x234340" placeholderColor="0x47928B" fontSize="24"
+		<e:PlaceholderTextInput id="emailInput" placeholderText="이메일" color="0x234340" placeholderColor="0x47928B" fontSize="24"
 								focusIn="emailInputLine.source = textFieldActivatedImage"
 								focusOut="emailInputLine.source = textFieldNormalImage" />
 		<s:Image id="emailInputLine" source="{textFieldNormalImage}" horizontalCenter="0" />
 		
 		<s:Spacer height="30" />
 		
-		<e:PlaceholderTextInput placeholderText="비밀번호" color="0x234340" placeholderColor="0x47928B" fontSize="24" displayAsPassword="true"
+		<e:PlaceholderTextInput id="passwordInput" placeholderText="비밀번호" color="0x234340" placeholderColor="0x47928B" fontSize="24" displayAsPassword="true"
 								focusIn="passwordInputLine.source = textFieldActivatedImage"
 								focusOut="passwordInputLine.source = textFieldNormalImage" />
 		<s:Image id="passwordInputLine" source="{textFieldNormalImage}" horizontalCenter="0" />

@@ -35,5 +35,10 @@ package net.joyfl.evermind.preference
 		{
 			sharedObj.flush();
 		}
+		
+		static public function clear() : void
+		{
+			sharedObj.clear();
+		}
 	}
 }
