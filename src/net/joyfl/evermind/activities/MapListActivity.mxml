@@ -2,10 +2,13 @@
 <s:View xmlns:fx="http://ns.adobe.com/mxml/2009" 
 		xmlns:s="library://ns.adobe.com/flex/spark"
 		xmlns:e="net.joyfl.evermind.components.*"
-		title="Evermind" initialize="init()" destructionPolicy="never">
+		title="Evermind" destructionPolicy="never"
+		initialize="init()" add="onAdd()">
 	<fx:Script>
 		<![CDATA[
 			import mx.collections.ArrayList;
+			
+			import spark.components.supportClasses.ViewReturnObject;
 			
 			import net.joyfl.evermind.events.EvermindEvent;
 			import net.joyfl.evermind.loader.MapLoader;
@@ -23,6 +26,19 @@
 				_loader.listMaps();
 			}
 			
+			private function onAdd() : void
+			{
+				var returnObj : ViewReturnObject = navigator.poppedViewReturnedObject;
+				if( !returnObj )
+					return;
+				
+				var metadata : MapMetadata = maps.getItemAt( returnObj.object.index ) as MapMetadata;
+				metadata.title = returnObj.object.metadata.title;
+				metadata.thumbnail = returnObj.object.metadata.thumbnail;
+				metadata.modified = returnObj.object.metadata.modified;
+				maps.setItemAt( metadata, returnObj.object.index );
+			}
+			
 			private function onListMaps( e : EvermindEvent ) : void
 			{
 				for( var i : int = 0; i < e.data.length; i++ )
@@ -36,7 +52,7 @@
 				var mapList : List = e.currentTarget as List;
 				var mapItem : MapMetadata = mapList.selectedItem as MapMetadata;
 				if( mapItem )
-					navigator.pushView( MapEditorActivity, {mapId: mapItem.mapId} );
+					navigator.pushView( MapEditorActivity, {mapId: mapItem.mapId, index: mapList.selectedIndex} );
 			}
 			
 			private function onAddButtonClick( e : MouseEvent ) : void
@@ -46,7 +62,10 @@
 			
 			private function onCreateMap( e : EvermindEvent ) : void
 			{
-				navigator.pushView( MapEditorActivity, {mapId: e.data.mapId} );
+				var metadata : MapMetadata = new MapMetadata();
+				metadata.mapId = e.data.mapId
+				maps.addItem( metadata );
+				navigator.pushView( MapEditorActivity, {mapId: e.data.mapId, index: maps.length - 1} );
 			}
 			
 			private function onAlignButtonClick( e : MouseEvent ) : void

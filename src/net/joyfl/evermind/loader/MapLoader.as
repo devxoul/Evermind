@@ -1,5 +1,6 @@
 package net.joyfl.evermind.loader
 {
+	import flash.display.BitmapData;
 	import flash.events.Event;
 	import flash.events.EventDispatcher;
 	import flash.events.IOErrorEvent;
@@ -7,6 +8,10 @@ package net.joyfl.evermind.loader
 	import flash.net.URLRequest;
 	import flash.net.URLRequestMethod;
 	import flash.net.URLVariables;
+	import flash.utils.ByteArray;
+	import flash.utils.Endian;
+	
+	import mx.graphics.codec.JPEGEncoder;
 	
 	import net.joyfl.evermind.events.EvermindEvent;
 	import net.joyfl.evermind.models.Map;
@@ -14,11 +19,12 @@ package net.joyfl.evermind.loader
 	import net.joyfl.evermind.preference.Preference;
 	import net.joyfl.evermind.preference.PreferenceKey;
 	import net.joyfl.evermind.utils.Base64;
+	import net.joyfl.evermind.utils.node2xml;
 	import net.joyfl.evermind.utils.xml2node;
 	
 	public class MapLoader extends EventDispatcher
 	{
-		private const API_BASE_URL : String = "http://ec2.jagur.kr/api.php";
+		static private const API_BASE_URL : String = "http://ec2.jagur.kr/api.php";
 		
 		private var _loader : URLLoader = new URLLoader();
 		
@@ -42,17 +48,84 @@ package net.joyfl.evermind.loader
 		
 		private function api( command : String, method : String, params : Object = null ) : void
 		{
-			var url : String = API_BASE_URL + "?url=" + command + "&access_token=" + Preference.getValue( PreferenceKey.ACCESS_TOKEN );
-			trace( url );
-			var vars : URLVariables = params ? new URLVariables() : null;
-			for( var key : String in params )
+			var url : String = API_BASE_URL + "?url=" + command + "&access_token=" + Preference.getValue( PreferenceKey.ACCESS_TOKEN );// + "&rand=" + Math.random();
+			
+			if( method == URLRequestMethod.POST )
 			{
-				vars[key] = params[key];
+				postAPI( url, params );
+				return;
 			}
+			
+			var vars : URLVariables;
+			if( params )
+			{
+				if( method == URLRequestMethod.GET )
+				{
+					for( var key : String in params )
+					{
+						url += "&" + key + "=" + params[key];
+					}
+				}
+				else
+				{
+					vars = new URLVariables();
+					for( key in params )
+					{
+						vars[key] = params[key];
+					}
+				}
+			}
+			
+			trace( url );
 			
 			var req : URLRequest = new URLRequest( url );
 			req.data = vars;
 			req.method = method;
+			
+			_loader.load( req );
+		}
+		
+		private function postAPI( url : String, params : Object ) : void
+		{
+			var req : URLRequest = new URLRequest( url );
+			req.method = URLRequestMethod.POST;
+			
+			var boundary : String = "---------------------------14737809831466499882746641449";
+			
+			req.contentType = "multipart/form-data; boundary=" + boundary;
+			
+			var body : ByteArray = new ByteArray();
+			body.endian = Endian.BIG_ENDIAN;
+			
+			if( params ) for( var key : String in params )
+			{
+				body.writeUTFBytes( "--" + boundary + "\r\n" );
+				
+				var value : Object = params[key];
+				
+				if( value is String )
+				{
+					body.writeUTFBytes( "Content-Disposition: form-data; name=\"" + key + "\"\r\n\r\n" );
+					body.writeUTFBytes( value as String );
+				}
+				else if( value is BitmapData )
+				{
+					body.writeUTFBytes( "Content-Disposition: form-data; name=\"" + key + "\"; filename=\"" + key + "\"\r\n" );
+					body.writeUTFBytes( "Content-Type: image/jpeg\r\n\r\n" );
+					var img : ByteArray = new JPEGEncoder( 100 ).encode( BitmapData( value ) );
+					body.writeBytes( img, 0, img.bytesAvailable );
+				}
+				else
+				{
+					trace( "other" );
+				}
+				
+				body.writeUTFBytes( "\r\n" );
+			}
+			
+			body.writeUTFBytes( "--" + boundary + "--\r\n" );
+			
+			req.data = body;
 			
 			_loader.load( req );
 		}
@@ -72,13 +145,24 @@ package net.joyfl.evermind.loader
 		public function createMap() : void
 		{
 			_loader.addEventListener( Event.COMPLETE, onCreateMap );
-			onCreateMap( null ); // temp
+			api( "map", URLRequestMethod.POST );
 		}
 		
 		public function setMap( map : Map ) : void
 		{
 			_loader.addEventListener( Event.COMPLETE, onSetMap );
-			onSetMap( null ); // temp
+			
+			var xml : XML = new XML( <map /> );
+			xml.appendChild( node2xml( map.node ) );
+			
+			var ba : ByteArray = new ByteArray();
+			ba.writeUTFBytes( xml );
+			
+			api( "map/" + map.metadata.mapId + "/modify", URLRequestMethod.POST, {
+				title: map.metadata.title,
+				thumbnail: map.metadata.thumbnail,
+				map: Base64.encode( ba )
+			} );
 		}
 		
 		
@@ -91,6 +175,7 @@ package net.joyfl.evermind.loader
 			if( json.status.code != 0 )
 			{
 				trace( "[MapLoader.onAuth()] Error" );
+				return;
 			}
 			
 			dispatchEvermindEvent( EvermindEvent.AUTH, json.data );
@@ -99,12 +184,13 @@ package net.joyfl.evermind.loader
 		private function onListMap( e : Event ) : void
 		{
 			_loader.removeEventListener( Event.COMPLETE, onListMap );
-			
+			trace( e.target.data );
 			var json : Object = JSON.parse( e.target.data );
 			
 			if( json.status.code != 0 )
 			{
 				trace( "[MapLoader.onListMap()] Error" );
+				return;
 			}
 			
 			var maps: Array = [];
@@ -126,15 +212,14 @@ package net.joyfl.evermind.loader
 		private function onGetMap( e : Event ) : void
 		{
 			_loader.removeEventListener( Event.COMPLETE, onGetMap );
-			
+			trace( e.target.data );
 			var json : Object = JSON.parse( e.target.data );
 			
 			if( json.status.code != 0 )
 			{
 				trace( "[MapLoader.onGetMap()] Error" );
+				return;
 			}
-			
-			var xml : XML = new XML( Base64.decode( json.data.map_data.split( " " ).join( "+" ) ) );
 			
 			var metadata : MapMetadata = new MapMetadata();
 			metadata.mapId = json.data.map_id;
@@ -144,55 +229,39 @@ package net.joyfl.evermind.loader
 			
 			var map : Map = new Map();
 			map.metadata = metadata;
-			map.node = xml2node( xml );
+			map.node = xml2node( new XML( Base64.decode( json.data.map_data.split( " " ).join( "+" ) ) ) );
 			
 			dispatchEvermindEvent( EvermindEvent.GET_MAP, map );
 		}
 		
-		private function onCreateMap( e : EvermindEvent ) : void
+		private function onCreateMap( e : Event ) : void
 		{
 			_loader.removeEventListener( Event.COMPLETE, onCreateMap );
+			trace( "create :", e.target.data );
+			var json : Object = JSON.parse( e.target.data );
 			
-			var xml : XML = new XML(
-				<result>
-					<status>
-						<code>0</code>
-						<message></message>
-					</status>
-					<data>
-						<map id="ID1" created="Created1" />
-					</data>
-				</result>
-			);
-			
-			if( xml.status.code != 0 )
+			if( json.status.code != 0 )
 			{
 				trace( "[MapLoader.onCreateMap()] Error" );
+				return;
 			}
 			
 			var metadata : MapMetadata = new MapMetadata();
-			metadata.mapId = xml..map.@id;
-			metadata.created = xml..map.@created;
+			metadata.mapId = json.data.id;
 			
 			dispatchEvermindEvent( EvermindEvent.CREATE_MAP, metadata );
 		}
 		
-		private function onSetMap( e : EvermindEvent ) : void
+		private function onSetMap( e : Event ) : void
 		{
 			_loader.removeEventListener( Event.COMPLETE, onSetMap );
+			trace( "set :", e.target.data );
+			var json : Object = JSON.parse( e.target.data );
 			
-			var xml : XML = new XML(
-				<result>
-					<status>
-						<code>0</code>
-						<message></message>
-					</status>
-				</result>
-			);
-			
-			if( xml.status.code != 0 )
+			if( json.status.code != 0 )
 			{
 				trace( "[MapLoader.onSetMap()] Error" );
+				return;
 			}
 			
 			dispatchEvermindEvent( EvermindEvent.SET_MAP, true );

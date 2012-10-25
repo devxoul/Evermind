@@ -20,6 +20,7 @@ package net.joyfl.evermind.utils
 			}
 		}
 		
+		trace( xml );
 		return xml;
 	}
 }

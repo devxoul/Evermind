@@ -60,9 +60,11 @@
 				addEventListener( Event.ENTER_FRAME, enterFrameHandler );
 			}
 			
-			private function onSaveButtonClick( e : MouseEvent ) : void
+			private function save() : void
 			{
+				_map.metadata.title = titleInput.text;
 				_map.metadata.thumbnail = nodeView.getSnapshot();
+				
 				_loader.setMap( _map );
 			}
 			
@@ -133,7 +135,15 @@
 				e.preventDefault();
 				
 				_back = true;
-				_loader.setMap( _map );
+				save();
+			}
+			
+			override public function createReturnObject() : Object
+			{
+				return {
+					metadata: _map.metadata,
+					index: data.index
+				};
 			}
 		]]>
 	</fx:Script>
@@ -144,7 +154,7 @@
 	</s:states>
 	
 	<s:navigationContent>
-		<e:ActionBarButton image="@Embed('/../res/button_save.png')" backgroundImage="@Embed('/../res/bottom_actionbar_button_bg.png')" click="onSaveButtonClick( event )" />
+		<e:ActionBarButton image="@Embed('/../res/button_save.png')" backgroundImage="@Embed('/../res/bottom_actionbar_button_bg.png')" click="save()" />
 		<e:ActionBarButton id="editBtn" image="@Embed('/../res/button_edit.png')" backgroundImage="@Embed('/../res/bottom_actionbar_button_bg.png')" click="onEditButtonClick( event )" />
 		<e:ActionBarButton id="removeBtn" image="@Embed('/../res/button_delete.png')" backgroundImage="@Embed('/../res/bottom_actionbar_button_bg.png')" click="onRemoveButtonClick( event )" />
 	</s:navigationContent>
