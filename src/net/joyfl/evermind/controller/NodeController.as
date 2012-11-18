@@ -8,6 +8,7 @@
 	
 	import net.joyfl.evermind.node.NodeContainer;
 	import net.joyfl.evermind.node.NodeData;
+	import net.joyfl.evermind.node.NodeHistory;
 	import net.joyfl.evermind.node.NodeView;
 	
 	public class NodeController extends Object {
@@ -31,6 +32,7 @@
 		private var canvas:Sprite;
 		private var container:NodeContainer;
 		private var view:NodeView;
+		private var history:NodeHistory;
 		
 		/**
 		*/
@@ -50,6 +52,7 @@
 			this.canvas = canvas;
 			this.view = view;
 			this.container = container;
+			this.history = new NodeHistory( container );
 			
 			slideSpeed = new Point;
 			renderingSleepTime = SLEEP_TIME;
