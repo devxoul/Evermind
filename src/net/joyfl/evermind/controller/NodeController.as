@@ -75,6 +75,7 @@
 			if( editingNode && editingNode is NodeData )
 			{
 				NodeData( editingNode ).removeThis();
+				history.update();
 				view.render();
 			}
 		}
@@ -109,6 +110,7 @@
 				editingNode.setEditMode( false );
 				_finalEditingNode = editingNode;
 				editingNode = null;
+				history.update();
 				view.render();
 			}
 			if( selectedNode == null )
@@ -119,6 +121,7 @@
 			isMouseMoveMode = false;
 			mouseDownCount = MOUSE_DELAY;
 			renderingSleepTime = SLEEP_TIME;
+			history.update();
 		}
 		
 		private function mouseUpEvent ( e:MouseEvent ) :void
