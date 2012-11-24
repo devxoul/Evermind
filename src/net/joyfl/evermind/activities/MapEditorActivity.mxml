@@ -68,6 +68,20 @@
 				_loader.setMap( _map );
 			}
 			
+			private function nodeUndo () :void
+			{
+				if( !nodeController.history.canUndo ) return;
+				nodeController.container = nodeView.container = nodeController.history.undo();
+				nodeView.render();
+			}
+			
+			private function nodeRedo () :void
+			{
+				if( !nodeController.history.canRedo ) return;
+				nodeController.container = nodeView.container = nodeController.history.redo();
+				nodeView.render();
+			}
+			
 			private function onSetMap( e : EvermindEvent ) : void
 			{
 				if( e.data == true )
@@ -114,6 +128,12 @@
 			
 			protected function enterFrameHandler ( e : Event ) : void
 			{
+				// undo, redo test
+				if( nodeController.history.canRedo ) redo.enabled = true;
+				else redo.enabled = false;
+				if( nodeController.history.canUndo ) undo.enabled = true;
+				else undo.enabled = false;
+				
 				nodeViewContainer.scaleX = nodeViewContainer.scaleY += (nodeScale-nodeViewContainer.scaleY) * 0.5;
 			}
 			
@@ -154,7 +174,8 @@
 	</s:states>
 	
 	<s:navigationContent>
-		<e:ActionBarButton image="@Embed('/../res/button_save.png')" backgroundImage="@Embed('/../res/bottom_actionbar_button_bg.png')" click="save()" />
+		<e:ActionBarButton id="undo" image="@Embed('/../res/button_undo.png')" backgroundImage="@Embed('/../res/bottom_actionbar_button_bg.png')" click="nodeUndo()" />
+		<e:ActionBarButton id="redo" image="@Embed('/../res/button_redo.png')" backgroundImage="@Embed('/../res/bottom_actionbar_button_bg.png')" click="nodeRedo()" />
 		<e:ActionBarButton id="editBtn" image="@Embed('/../res/button_edit.png')" backgroundImage="@Embed('/../res/bottom_actionbar_button_bg.png')" click="onEditButtonClick( event )" />
 		<e:ActionBarButton id="removeBtn" image="@Embed('/../res/button_delete.png')" backgroundImage="@Embed('/../res/bottom_actionbar_button_bg.png')" click="onRemoveButtonClick( event )" />
 	</s:navigationContent>

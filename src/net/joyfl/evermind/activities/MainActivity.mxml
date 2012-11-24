@@ -11,7 +11,7 @@
 			
 			private function init() : void
 			{
-//				Preference.clear();
+				Preference.clear();
 				// Already logged in
 				if( Preference.getValue( PreferenceKey.EMAIL ) && Preference.getValue( PreferenceKey.PASSWORD ) )
 				{

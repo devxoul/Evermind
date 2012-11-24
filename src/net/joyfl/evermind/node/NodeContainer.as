@@ -221,12 +221,13 @@
 		
 		/**
 		*/
-		public function setEditMode ( bool:Boolean ) :void
+		public function setEditMode ( bool:Boolean ) :Boolean
 		{
+			var b:Boolean = false;
 			if( media != null )
 			{
 				// 사진일때 취할 행동
-				return;
+				return false;
 			}
 			_isEditMode = bool;
 			if( bool )
@@ -239,12 +240,15 @@
 			}
 			else
 			{
+				b = ( this.title != _textField.text );
 				if( _textField.text.length != 0 ) this.title = _textField.text;
 				_textField.type = TextFieldType.DYNAMIC;
 				_textField.selectable = false;
 				_textField.border = false;
 				_textField.setSelection( 0, 0 );
+				if( b ) return true;
 			}
+			return false;
 		}
 		
 		/**

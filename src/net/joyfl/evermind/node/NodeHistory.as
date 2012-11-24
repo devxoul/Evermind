@@ -7,36 +7,39 @@ package net.joyfl.evermind.node
 	{
 		
 		private var currentSlot:int;
-		private var slotNum:int;
 		private var container:NodeContainer;
-		private var xmls:Vector.<XML>;
+		private var data:Vector.<NodeContainer>;
 		
 		public function NodeHistory ( container:NodeContainer, slotNum:int = 30 ) :void
 		{
 			super();
-		
-			this.slotNum = slotNum;
 			this.container = container;
-			xmls = new Vector.<XML>;
+			data = new Vector.<NodeContainer>;
 			currentSlot = 0;
-			xmls.push( node2xml( container ) );
+			data.push( container.clone() );
+		}
+		
+		public function get slotNum () :int
+		{
+			return data.length;
 		}
 		
 		public function update () :void
 		{
-			if( canRedo ) xmls.splice( currentSlot + 1, Number.MAX_VALUE );
+			if( canRedo ) data.splice( currentSlot + 1, Number.MAX_VALUE );
 			++ currentSlot;
-			xmls.push( node2xml( container ) );
-			if( xmls.length > slotNum )
+			data.push( container.clone() );
+			trace( 'update', currentSlot, data.length );
+			if( data.length > slotNum )
 			{
-				xmls.splice( 0, 1 );
+				data.splice( 0, 1 );
 				-- currentSlot;
 			}
 		}
 		
 		public function get currentContainer () :NodeContainer
 		{
-			return xml2node( xmls[ xmls.length - 1 ] );
+			return data[ data.length - 1 ].clone();
 		}
 		
 		public function undo () :NodeContainer
@@ -47,7 +50,9 @@ package net.joyfl.evermind.node
 				return null;
 			}
 			-- currentSlot;
-			return xml2node( xmls[ currentSlot ] );
+			trace( currentSlot, data.length );
+			container = data[ currentSlot ].clone();
+			return container;
 		}
 		
 		public function redo () :NodeContainer
@@ -58,7 +63,9 @@ package net.joyfl.evermind.node
 				return null;
 			}
 			++ currentSlot;
-			return xml2node( xmls[ currentSlot ] );
+			trace( currentSlot, data.length );
+			container = data[ currentSlot ].clone();
+			return container;
 		}
 		
 		public function get canUndo () :Boolean

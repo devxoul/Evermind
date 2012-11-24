@@ -30,10 +30,11 @@
 		private var slideSpeed:Point;
 		
 		private var canvas:Sprite;
-		private var container:NodeContainer;
 		private var view:NodeView;
-		private var history:NodeHistory;
 		
+		public var container:NodeContainer;
+		public var history:NodeHistory;
+
 		/**
 		*/
 		public function get finalEditingNode ( ):NodeContainer
@@ -107,10 +108,12 @@
 			if( _finalEditingNode != null ) _finalEditingNode = null;
 			if( editingNode != selectedNode && editingNode != null )
 			{
-				editingNode.setEditMode( false );
+				if( editingNode.setEditMode( false ) )
+				{
+					history.update();
+				}
 				_finalEditingNode = editingNode;
 				editingNode = null;
-				history.update();
 				view.render();
 			}
 			if( selectedNode == null )
@@ -121,16 +124,17 @@
 			isMouseMoveMode = false;
 			mouseDownCount = MOUSE_DELAY;
 			renderingSleepTime = SLEEP_TIME;
-			history.update();
 		}
 		
 		private function mouseUpEvent ( e:MouseEvent ) :void
 		{
 			if( (selectedNode != null && !isMouseMoveMode) || isNewNode )
 			{
+				if( isNewNode ) history.update();
 				selectedNode.setEditMode( true );
 				editingNode = selectedNode;
 			}
+			if( !isNewNode && selectedNode != null && isMouseMoveMode ) history.update();
 			//
 			isNewNode = false;
 			isMouseDown = false;
