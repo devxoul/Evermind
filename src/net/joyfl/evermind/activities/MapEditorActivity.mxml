@@ -152,6 +152,8 @@
 			
 			private function onBackKeyPressed( e : FlexEvent ) : void
 			{
+				if( !nodeController.history.canUndo ) return;
+				
 				e.preventDefault();
 				
 				_back = true;
