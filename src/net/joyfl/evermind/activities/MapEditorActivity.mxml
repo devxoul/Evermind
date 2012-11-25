@@ -93,12 +93,6 @@
 				}
 			}
 			
-			private function onEditButtonClick( e : MouseEvent ) : void
-			{
-				if( nodeController.currentNode )
-					nodeController.currentNode.textField.requestSoftKeyboard();
-			}
-			
 			private function onRemoveButtonClick ( e : MouseEvent ) : void
 			{
 				nodeController.removeSelectedNode();
@@ -176,7 +170,6 @@
 	<s:navigationContent>
 		<e:ActionBarButton id="undo" image="@Embed('/../res/button_undo.png')" backgroundImage="@Embed('/../res/bottom_actionbar_button_bg.png')" click="nodeUndo()" />
 		<e:ActionBarButton id="redo" image="@Embed('/../res/button_redo.png')" backgroundImage="@Embed('/../res/bottom_actionbar_button_bg.png')" click="nodeRedo()" />
-		<e:ActionBarButton id="editBtn" image="@Embed('/../res/button_edit.png')" backgroundImage="@Embed('/../res/bottom_actionbar_button_bg.png')" click="onEditButtonClick( event )" />
 		<e:ActionBarButton id="removeBtn" image="@Embed('/../res/button_delete.png')" backgroundImage="@Embed('/../res/bottom_actionbar_button_bg.png')" click="onRemoveButtonClick( event )" />
 	</s:navigationContent>
 	
