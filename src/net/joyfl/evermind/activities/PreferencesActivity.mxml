@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		xmlns:s="library://ns.adobe.com/flex/spark"
+		title="설정" initialize="init()">
+	<fx:Style>
+		@namespace s "library://ns.adobe.com/flex/spark";
+		
+		.label {
+			color: #464F4E;
+		}
+		
+		.message {
+			color: #899F9C;
+			fontSize: 18px;
+		}
+	</fx:Style>
+	
+	<fx:Script>
+		<![CDATA[
+			import mx.collections.ArrayList;
+			
+			import net.joyfl.evermind.preference.Preference;
+			import net.joyfl.evermind.preference.PreferenceKey;
+			
+			[Bindable]
+			private var preferences : ArrayList = new ArrayList();
+			
+			private function init() : void
+			{
+				preferences.addItem( {label: "공지사항", message: "0개의 새로운 소식이 있습니다."} );
+				preferences.addItem( {label: "업데이트", message: "최신버전입니다."} );
+				preferences.addItem( {label: "비밀번호 변경", message: "비밀번호를 마지막으로 변경한지 30일이 지났습니다."} );
+				preferences.addItem( {label: "로그아웃", message: "현재 " + Preference.getValue( PreferenceKey.EMAIL ) + "으로 로그인되어있습니다."} );
+			}
+		]]>
+	</fx:Script>
+	
+	<s:List id="list" width="100%" height="100%" dataProvider="{preferences}" contentBackgroundColor="#F2F2F2">
+		<s:itemRenderer>
+			<fx:Component>
+				<s:IconItemRenderer labelField="label" messageField="message"
+									styleName="label" messageStyleName="message"
+									decorator="@Embed( '/../res/button_detail.png' )" />
+			</fx:Component>
+		</s:itemRenderer>
+	</s:List>
+</s:View>

@@ -29,7 +29,7 @@
 			private function onAdd() : void
 			{
 				var returnObj : ViewReturnObject = navigator.poppedViewReturnedObject;
-				if( !returnObj )
+				if( !returnObj || ( !returnObj.context && !returnObj.object ) )
 					return;
 				
 				var metadata : MapMetadata = maps.getItemAt( returnObj.object.index ) as MapMetadata;
@@ -80,7 +80,7 @@
 			
 			private function onOverflowButtonClick( e : MouseEvent ) : void
 			{
-				trace( "Overflow" );
+				navigator.pushView( PreferencesActivity );
 			}
 		]]>
 	</fx:Script>

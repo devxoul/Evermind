@@ -1,5 +1,7 @@
 package net.joyfl.evermind.loader
 {
+	import com.adobe.crypto.SHA1;
+	
 	import flash.display.BitmapData;
 	import flash.events.Event;
 	import flash.events.EventDispatcher;
@@ -56,7 +58,7 @@ package net.joyfl.evermind.loader
 			
 			var dates : Array = dateString.split( "-" );
 			var times : Array = timeString.split( ":" );
-			var expireDate : Date = new Date( dates[0], dates[1], dates[2], times[0], times[1], times[2] );
+			var expireDate : Date = new Date( dates[0], dates[1] - 1, dates[2], times[0], times[1], times[2] );
 			
 			if( expireDate.time <= new Date().time )
 			{
@@ -194,6 +196,9 @@ package net.joyfl.evermind.loader
 				trace( "[MapLoader.onAuth()] Error" );
 				return;
 			}
+			
+			Preference.setValue( PreferenceKey.ACCESS_TOKEN, json.data.access_token );
+			Preference.setValue( PreferenceKey.EXPIRE_TIME, json.data.expire_time );
 			
 			if( !_expiredArguments )
 			{
