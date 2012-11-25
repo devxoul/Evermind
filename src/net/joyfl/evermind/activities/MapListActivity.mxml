@@ -10,6 +10,7 @@
 			
 			import spark.components.supportClasses.ViewReturnObject;
 			
+			import net.joyfl.evermind.components.Alert;
 			import net.joyfl.evermind.events.EvermindEvent;
 			import net.joyfl.evermind.loader.MapLoader;
 			import net.joyfl.evermind.models.MapMetadata;
