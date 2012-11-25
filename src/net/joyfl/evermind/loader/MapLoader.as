@@ -199,6 +199,7 @@ package net.joyfl.evermind.loader
 			
 			Preference.setValue( PreferenceKey.ACCESS_TOKEN, json.data.access_token );
 			Preference.setValue( PreferenceKey.EXPIRE_TIME, json.data.expire_time );
+			Preference.flush();
 			
 			if( !_expiredArguments )
 			{

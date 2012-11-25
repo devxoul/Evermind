@@ -39,6 +39,7 @@
 			{
 				Preference.setValue( PreferenceKey.EMAIL, emailInput.text );
 				Preference.setValue( PreferenceKey.PASSWORD, SHA1.hash( passwordInput.text ) );
+				Preference.flush();
 				
 				navigator.popAll();
 				navigator.pushView( MapListActivity );
