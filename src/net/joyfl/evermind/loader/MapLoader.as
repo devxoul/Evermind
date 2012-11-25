@@ -1,7 +1,5 @@
 package net.joyfl.evermind.loader
 {
-	import com.adobe.crypto.SHA1;
-	
 	import flash.display.BitmapData;
 	import flash.events.Event;
 	import flash.events.EventDispatcher;
@@ -13,7 +11,6 @@ package net.joyfl.evermind.loader
 	import flash.utils.ByteArray;
 	import flash.utils.Endian;
 	
-	import mx.formatters.DateFormatter;
 	import mx.graphics.codec.JPEGEncoder;
 	
 	import net.joyfl.evermind.events.EvermindEvent;
@@ -27,7 +24,7 @@ package net.joyfl.evermind.loader
 	
 	public class MapLoader extends EventDispatcher
 	{
-		static private const API_BASE_URL : String = "http://ec2.jagur.kr/api.php";
+		static private const API_BASE_URL : String = "http://joyfl.cafe24.com/evermind/api.php";
 		
 		private var _loader : URLLoader = new URLLoader();
 		private var _expiredArguments : Array;
@@ -53,6 +50,7 @@ package net.joyfl.evermind.loader
 		private function api( command : String, method : String, params : Object = null ) : void
 		{
 			var expireDates : Array = Preference.getValue( PreferenceKey.EXPIRE_TIME ).split( " " );
+			
 			var dateString : String = expireDates[0]; 
 			var timeString : String  = expireDates[1];
 			
