@@ -25,6 +25,11 @@
 			[Bindable]
 			private var preferences : ArrayList = new ArrayList();
 			
+			static private const ROW_NOTICE : int = 0;
+			static private const ROW_UPDATE : int = 1;
+			static private const ROW_CHANGE_PASSWORD : int = 2;
+			static private const ROW_LOGOUT : int = 3;
+			
 			private function init() : void
 			{
 				preferences.addItem( {label: "공지사항", message: "0개의 새로운 소식이 있습니다."} );
@@ -32,10 +37,22 @@
 				preferences.addItem( {label: "비밀번호 변경", message: "비밀번호를 마지막으로 변경한지 30일이 지났습니다."} );
 				preferences.addItem( {label: "로그아웃", message: "현재 " + Preference.getValue( PreferenceKey.EMAIL ) + "으로 로그인되어있습니다."} );
 			}
+			
+			private function onListClick( e : MouseEvent ) : void
+			{
+				switch( list.selectedIndex )
+				{
+					case ROW_LOGOUT:
+						navigator.popAll();
+						navigator.pushView( SignInActivity );
+						Preference.clear();
+						break;
+				}
+			}
 		]]>
 	</fx:Script>
 	
-	<s:List id="list" width="100%" height="100%" dataProvider="{preferences}" contentBackgroundColor="#F2F2F2">
+	<s:List id="list" width="100%" height="100%" dataProvider="{preferences}" contentBackgroundColor="#F2F2F2" click="onListClick( event )">
 		<s:itemRenderer>
 			<fx:Component>
 				<s:IconItemRenderer labelField="label" messageField="message"
