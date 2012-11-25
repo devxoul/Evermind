@@ -11,6 +11,7 @@ package net.joyfl.evermind.loader
 	import flash.utils.ByteArray;
 	import flash.utils.Endian;
 	
+	import mx.formatters.DateFormatter;
 	import mx.graphics.codec.JPEGEncoder;
 	
 	import net.joyfl.evermind.events.EvermindEvent;
@@ -27,6 +28,7 @@ package net.joyfl.evermind.loader
 		static private const API_BASE_URL : String = "http://ec2.jagur.kr/api.php";
 		
 		private var _loader : URLLoader = new URLLoader();
+		private var _expiredArguments : Array;
 		
 		public function MapLoader()
 		{
@@ -48,6 +50,21 @@ package net.joyfl.evermind.loader
 		
 		private function api( command : String, method : String, params : Object = null ) : void
 		{
+			var expireDates : Array = Preference.getValue( PreferenceKey.EXPIRE_TIME ).split( " " );
+			var dateString : String = expireDates[0]; 
+			var timeString : String  = expireDates[1];
+			
+			var dates : Array = dateString.split( "-" );
+			var times : Array = timeString.split( ":" );
+			var expireDate : Date = new Date( dates[0], dates[1], dates[2], times[0], times[1], times[2] );
+			
+			if( expireDate.time <= new Date().time )
+			{
+				_expiredArguments = arguments;
+				auth( Preference.getValue( PreferenceKey.EMAIL ) as String, Preference.getValue( PreferenceKey.PASSWORD ) as String );
+				return;
+			}
+			
 			var url : String = API_BASE_URL + "?url=" + command + "&access_token=" + Preference.getValue( PreferenceKey.ACCESS_TOKEN );// + "&rand=" + Math.random();
 			
 			if( method == URLRequestMethod.POST )
@@ -178,7 +195,15 @@ package net.joyfl.evermind.loader
 				return;
 			}
 			
-			dispatchEvermindEvent( EvermindEvent.AUTH, json.data );
+			if( !_expiredArguments )
+			{
+				dispatchEvermindEvent( EvermindEvent.AUTH, json.data );
+			}
+			else
+			{
+				api.apply( api, _expiredArguments );
+				_expiredArguments = null;
+			}
 		}
 		
 		private function onListMap( e : Event ) : void

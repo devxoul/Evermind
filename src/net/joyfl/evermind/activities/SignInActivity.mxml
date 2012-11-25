@@ -37,9 +37,8 @@
 			
 			private function onAuth( e : EvermindEvent ) : void
 			{
-				trace( e.data.access_token );
 				Preference.setValue( PreferenceKey.ACCESS_TOKEN, e.data.access_token );
-				Preference.setValue( PreferenceKey.EXPIRE_TIME, e.data.expires );
+				Preference.setValue( PreferenceKey.EXPIRE_TIME, e.data.expire_time );
 				Preference.setValue( PreferenceKey.EMAIL, emailInput.text );
 				Preference.setValue( PreferenceKey.PASSWORD, SHA1.hash( passwordInput.text ) );
 				
