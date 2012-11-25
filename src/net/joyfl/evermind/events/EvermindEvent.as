@@ -9,6 +9,7 @@ package net.joyfl.evermind.events
 		static public const GET_MAP : String = "EvermindEvent_getMap";
 		static public const CREATE_MAP : String = "EvermindEvent_createMap";
 		static public const SET_MAP : String = "EvermindEvent_setMap";
+		static public const DELETE_MAP : String = "EvermindEvent_deleteMap";
 		
 		public var data : Object;
 		

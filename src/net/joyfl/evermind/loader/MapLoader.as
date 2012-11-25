@@ -182,6 +182,11 @@ package net.joyfl.evermind.loader
 			} );
 		}
 		
+		public function deleteMap( mapId : String ) : void
+		{
+			_loader.addEventListener( Event.COMPLETE, onDeleteMap );
+			api( "map_delete/" + mapId, URLRequestMethod.GET );
+		}
 		
 		
 		private function onAuth( e : Event ) : void
@@ -295,6 +300,22 @@ package net.joyfl.evermind.loader
 			
 			dispatchEvermindEvent( EvermindEvent.SET_MAP, true );
 		}
+		
+		private function onDeleteMap( e : Event ) : void
+		{
+			_loader.removeEventListener( Event.COMPLETE, onDeleteMap );
+			
+			var json : Object = JSON.parse( e.target.data );
+			
+			if( json.status.code != 0 )
+			{
+				trace( "[MapLoader.onDeleteMap()] Error" );
+				return;
+			}
+			
+			dispatchEvermindEvent( EvermindEvent.DELETE_MAP, json.data.map_id );
+		}
+		
 		
 		private function dispatchEvermindEvent( type : String, data : Object ) : void
 		{

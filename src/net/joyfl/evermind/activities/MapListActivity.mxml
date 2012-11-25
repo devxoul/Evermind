@@ -3,10 +3,11 @@
 		xmlns:s="library://ns.adobe.com/flex/spark"
 		xmlns:e="net.joyfl.evermind.components.*"
 		title="Evermind" destructionPolicy="never"
-		initialize="init()" add="onAdd()">
+		initialize="init()" add="onAdd()" mouseUp="onMouseUp( event )">
 	<fx:Script>
 		<![CDATA[
 			import mx.collections.ArrayList;
+			import mx.events.CloseEvent;
 			
 			import spark.components.supportClasses.ViewReturnObject;
 			
@@ -14,17 +15,24 @@
 			import net.joyfl.evermind.events.EvermindEvent;
 			import net.joyfl.evermind.loader.MapLoader;
 			import net.joyfl.evermind.models.MapMetadata;
+			import net.joyfl.evermind.renderers.MapListItemRenderer;
 			
 			[Bindable]
 			private var maps : ArrayList = new ArrayList();
 			
 			private var _loader : MapLoader = new MapLoader();
 			
+			private var _longTouchTimer : Timer = new Timer( 1000 );
+			private var _selectedMap : MapMetadata;
+			
 			private function init() : void
 			{
 				_loader.addEventListener( EvermindEvent.LIST_MAPS, onListMaps );
 				_loader.addEventListener( EvermindEvent.CREATE_MAP, onCreateMap );
+				_loader.addEventListener( EvermindEvent.DELETE_MAP, onDeleteMap );
 				_loader.listMaps();
+				
+				_longTouchTimer.addEventListener( TimerEvent.TIMER, onTimer );
 			}
 			
 			private function onAdd() : void
@@ -50,10 +58,57 @@
 			
 			private function onMapListClick( e : MouseEvent ) : void
 			{
-				var mapList : List = e.currentTarget as List;
-				var mapItem : MapMetadata = mapList.selectedItem as MapMetadata;
-				if( mapItem )
+				if( e.target.parentDocument is MapListItemRenderer && _longTouchTimer.currentCount == 0 )
+				{
+					var mapRenderer : MapListItemRenderer = e.target.parentDocument as MapListItemRenderer;
+					var mapItem : MapMetadata = mapRenderer.data as MapMetadata;
 					navigator.pushView( MapEditorActivity, {mapId: mapItem.mapId, index: mapList.selectedIndex} );
+				}
+			}
+			
+			private function onMapListMouseDown( e : MouseEvent ) : void
+			{
+				if( e.target.parentDocument is MapListItemRenderer )
+				{
+					_selectedMap = e.target.parentDocument.data as MapMetadata;
+					_longTouchTimer.reset();
+					_longTouchTimer.start();
+				}
+			}
+			
+			private function onMouseUp( e : MouseEvent ) : void
+			{
+				_longTouchTimer.stop();
+			}
+			
+			private function onTimer( e : TimerEvent ) : void
+			{
+				_longTouchTimer.stop();
+				
+				Alert.show( this, ["예", "아니오"], "삭제하시겠습니까?", "경고", onAlertClose, true );
+			}
+			
+			private function onAlertClose( e : CloseEvent ) : void
+			{
+				if( e.detail == 0 )
+				{
+					_loader.deleteMap( _selectedMap.mapId );
+				}
+				else if( e.detail == 1 )
+				{
+					e.target.dismiss();
+				}
+			}
+			
+			private function onDeleteMap( e : EvermindEvent ) : void
+			{
+				for each( var map : MapMetadata in maps.source )
+				{
+					if( map.mapId == e.data )
+					{
+						maps.removeItem( map );
+					}
+				}
 			}
 			
 			private function onAddButtonClick( e : MouseEvent ) : void
@@ -90,9 +145,9 @@
 		<s:VerticalLayout gap="0" />
 	</s:layout>
 	
-	<s:List width="100%" height="100%"
+	<s:List id="mapList" width="100%" height="100%"
 			dataProvider="{maps}" itemRenderer="net.joyfl.evermind.renderers.MapListItemRenderer"
-			click="onMapListClick(event)"
+			click="onMapListClick(event)" mouseDown="onMapListMouseDown( event )"
 			contentBackgroundColor="#F2F2F2" />
 	<s:Line width="100%">
 		<s:stroke>
