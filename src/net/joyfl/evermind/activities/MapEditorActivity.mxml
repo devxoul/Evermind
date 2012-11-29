@@ -14,6 +14,7 @@
 			import net.joyfl.evermind.events.EvermindEvent;
 			import net.joyfl.evermind.loader.MapLoader;
 			import net.joyfl.evermind.models.Map;
+			import net.joyfl.evermind.node.NodeContainer;
 			import net.joyfl.evermind.node.NodeView;
 			
 			private var _loader : MapLoader = new MapLoader();
@@ -52,11 +53,13 @@
 				nodeViewContainer.addChild( nodeView );
 				nodeController = new NodeController( this, _map.node, nodeView );
 				
+				nodeController.container.textFormat.font = '_sans';
+				nodeController.container.syncTextFormat();
+				
 				nodeViewContainer.x = canvas.width / 2;
 				nodeViewContainer.y = canvas.height / 2;
 				
 				canvas.addChild( nodeViewContainer );
-				
 				addEventListener( Event.ENTER_FRAME, enterFrameHandler );
 			}
 			

@@ -1,5 +1,6 @@
 ﻿package  net.joyfl.evermind.node {
 	import flash.display.BitmapData;
+	import flash.text.TextFormat;
 	
 	/**
 	 * NodeData
@@ -53,8 +54,9 @@
 		 * @param	color	노드의 색상
 		 * @param	media	노드에 들어갈 미디어 객체
 		 */
-		public function NodeData ( x:Number, y:Number, title:String, media:BitmapData = null ) {
+		public function NodeData ( x:Number, y:Number, title:String, media:BitmapData = null, textFormat:TextFormat = null ) {
 			super( x, y, title, 0, media );
+			this.textFormat = textFormat;
 		}
 
 	}
