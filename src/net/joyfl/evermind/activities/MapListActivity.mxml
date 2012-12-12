@@ -3,9 +3,11 @@
 		xmlns:s="library://ns.adobe.com/flex/spark"
 		xmlns:e="net.joyfl.evermind.components.*"
 		title="Evermind" destructionPolicy="never"
-		initialize="init()" add="onAdd()" mouseUp="onMouseUp( event )">
+		creationComplete="init()" add="onAdd()" mouseMove="onMouseMove( event )" mouseUp="onMouseUp( event )">
 	<fx:Script>
 		<![CDATA[
+			import flash.utils.setTimeout;
+			
 			import mx.collections.ArrayList;
 			import mx.events.CloseEvent;
 			
@@ -20,6 +22,8 @@
 			[Bindable]
 			private var maps : ArrayList = new ArrayList();
 			
+			private var _loadingAlert : Alert;
+			
 			private var _loader : MapLoader = new MapLoader();
 			
 			private var _longTouchTimer : Timer = new Timer( 500 );
@@ -33,6 +37,8 @@
 				_loader.listMaps();
 				
 				_longTouchTimer.addEventListener( TimerEvent.TIMER, onTimer );
+				
+				_loadingAlert = Alert.show( this, "", "마인드맵 목록을 불러오고 있습니다." );
 			}
 			
 			private function onAdd() : void
@@ -54,6 +60,9 @@
 				{
 					maps.addItem( e.data[i] );
 				}
+				
+				if( _loadingAlert && _loadingAlert.isOpen )
+					setTimeout( _loadingAlert.close, 500 );
 			}
 			
 			private function onMapListClick( e : MouseEvent ) : void
@@ -76,6 +85,11 @@
 				}
 			}
 			
+			private function onMouseMove( e : MouseEvent ) : void
+			{
+				_longTouchTimer.stop();
+			}
+			
 			private function onMouseUp( e : MouseEvent ) : void
 			{
 				_longTouchTimer.stop();
@@ -85,18 +99,15 @@
 			{
 				_longTouchTimer.stop();
 				
-				Alert.show( this, ["예", "아니오"], "삭제하시겠습니까?", "경고", onAlertClose, true );
+				Alert.show( this, "경고", "삭제하시겠습니까?", ["예", "아니오"], onAlertClose, true );
 			}
 			
 			private function onAlertClose( e : CloseEvent ) : void
 			{
 				if( e.detail == 0 )
 				{
+					_loadingAlert = Alert.show( this, "", "삭제중입니다." );
 					_loader.deleteMap( _selectedMap.mapId );
-				}
-				else if( e.detail == 1 )
-				{
-					e.target.dismiss();
 				}
 			}
 			
@@ -109,15 +120,20 @@
 						maps.removeItem( map );
 					}
 				}
+				
+				_loadingAlert.close();
 			}
 			
 			private function onAddButtonClick( e : MouseEvent ) : void
 			{
-				_loader.createMap();
+				_loadingAlert = Alert.show( this, "", "새 마인드맵을 생성중입니다." );
+				setTimeout( _loader.createMap, 100 );
 			}
 			
 			private function onCreateMap( e : EvermindEvent ) : void
 			{
+				_loadingAlert.close();
+				
 				var metadata : MapMetadata = new MapMetadata();
 				metadata.mapId = e.data.mapId
 				maps.addItem( metadata );
