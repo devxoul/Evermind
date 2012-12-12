@@ -43,9 +43,10 @@
 		</s:fill>
 	</s:Rect>
 	
-	<s:Image source="@Embed('/../res/splash_icon.png')" horizontalCenter="0" verticalCenter="-100" />
-	
-	<s:VGroup left="20" right="20" bottom="44">
+	<s:VGroup top="0" bottom="0" left="0" right="0" horizontalAlign="center" verticalAlign="middle">
+		<s:Image source="@Embed('/../res/splash_icon.png')" horizontalCenter="0" verticalCenter="-100" />
+		
+		<s:Spacer height="50" />
 		<e:ImageButton normalStateImage="@Embed('/../res/button_normal.png')" highlightedStateImage="@Embed('/../res/button_pressed.png')"
 					   text="새로운 계정 만들기" color="0x464F4E" fontSize="24" click="onSignUpButtonClick( event )" />
 		<e:ImageButton normalStateImage="@Embed('/../res/button_normal.png')" highlightedStateImage="@Embed('/../res/button_pressed.png')"

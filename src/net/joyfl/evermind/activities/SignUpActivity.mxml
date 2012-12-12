@@ -103,7 +103,7 @@
 		</s:fill>
 	</s:Rect>
 	
-	<s:VGroup left="20" right="20" top="50" gap="-10">
+	<s:VGroup left="20" right="20" top="50" gap="-10" horizontalAlign="center">
 		<s:Label text="새 계정 만들기" color="0x464F4E" fontSize="28" fontWeight="bold" />
 		<s:Spacer height="30" />
 		<s:Line width="100%">
@@ -132,6 +132,8 @@
 								focusIn="verifyInputLine.source = textFieldActivatedImage"
 								focusOut="verifyInputLine.source = textFieldNormalImage" />
 		<s:Image id="verifyInputLine" source="{textFieldNormalImage}" horizontalCenter="0" />
+		
+		<s:Spacer height="30" />
 		
 		<e:ImageButton left="20" right="20" bottom="345" normalStateImage="@Embed('/../res/button_normal.png')" highlightedStateImage="@Embed('/../res/button_pressed.png')"
 					   text="가입하기" color="0x464F4E" fontSize="24" click="onSignUpButtonClick( event )" />
