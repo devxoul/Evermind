@@ -31,14 +31,14 @@
 			
 			private function init() : void
 			{
+				_loadingAlert = Alert.show( this, "", "마인드맵 목록을 불러오고 있습니다." );
+				
 				_loader.addEventListener( EvermindEvent.LIST_MAPS, onListMaps );
 				_loader.addEventListener( EvermindEvent.CREATE_MAP, onCreateMap );
 				_loader.addEventListener( EvermindEvent.DELETE_MAP, onDeleteMap );
 				_loader.listMaps();
 				
 				_longTouchTimer.addEventListener( TimerEvent.TIMER, onTimer );
-				
-				_loadingAlert = Alert.show( this, "", "마인드맵 목록을 불러오고 있습니다." );
 			}
 			
 			private function onAdd() : void

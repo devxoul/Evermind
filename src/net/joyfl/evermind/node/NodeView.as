@@ -46,8 +46,8 @@
 		 */
 		public function getSnapshot ():BitmapData
 		{
-			var width : Number = 630;
-			var height : Number = 280;
+			var width : Number = 450;
+			var height : Number = 200;
 			
 			var matrix:Matrix = new Matrix;
 			var bitmap:BitmapData = new BitmapData( width, height, false, 0xFFFFFF );
