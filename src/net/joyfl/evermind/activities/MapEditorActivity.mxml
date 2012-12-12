@@ -35,6 +35,13 @@
 			 */
 			private var _back : Boolean;
 			
+			private var _changed : Boolean;
+			private function get changed() : Boolean
+			{
+				if( _changed ) return _changed;
+				return _changed = nodeController.history.canUndo || titleInput.text != _map.metadata.title;
+			}
+			
 			private function init() : void
 			{
 				nodeScale = 1;
@@ -96,6 +103,8 @@
 			
 			private function onSetMap( e : EvermindEvent ) : void
 			{
+//				_map.metadata.title = titleInput.text;
+				
 				_loadingAlert.close();
 				
 				if( e.data == true )
@@ -162,7 +171,7 @@
 			
 			private function onBackKeyPressed( e : FlexEvent ) : void
 			{
-				if( !nodeController.history.canUndo ) return;
+				if( !changed ) return;
 				
 				e.preventDefault();
 				
@@ -173,7 +182,7 @@
 			override public function createReturnObject() : Object
 			{
 				return {
-					changed: nodeController.history.canUndo,
+					changed: changed,
 					metadata: _map.metadata,
 					index: data.index
 				};
