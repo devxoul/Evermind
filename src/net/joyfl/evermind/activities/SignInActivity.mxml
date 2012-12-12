@@ -8,6 +8,7 @@
 		<![CDATA[
 			import com.adobe.crypto.SHA1;
 			
+			import net.joyfl.evermind.components.Alert;
 			import net.joyfl.evermind.events.EvermindEvent;
 			import net.joyfl.evermind.loader.MapLoader;
 			import net.joyfl.evermind.preference.Preference;
@@ -15,6 +16,8 @@
 			
 			
 			private var _loader : MapLoader = new MapLoader();
+			
+			private var _loadingAlert : Alert;
 			
 			[Embed( source='/../res/textfield_normal.png', scaleGridLeft='4', scaleGridRight='438', scaleGridTop='0', scaleGridBottom='7' )]
 			private var _textFieldNormalClass : Class;
@@ -31,12 +34,16 @@
 			
 			private function onSignInButtonClick( e : MouseEvent ) : void
 			{
+				_loadingAlert = Alert.show( this, "", "로그인중입니다." );
+				
 				emailInput.enabled = passwordInput.enabled = false;		
 				_loader.auth( emailInput.text, SHA1.hash( passwordInput.text ) );
 			}
 			
 			private function onAuth( e : EvermindEvent ) : void
 			{
+				_loadingAlert.close();
+				
 				Preference.setValue( PreferenceKey.EMAIL, emailInput.text );
 				Preference.setValue( PreferenceKey.PASSWORD, SHA1.hash( passwordInput.text ) );
 				Preference.flush();
