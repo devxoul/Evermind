@@ -44,7 +44,7 @@
 			private function onAdd() : void
 			{
 				var returnObj : ViewReturnObject = navigator.poppedViewReturnedObject;
-				if( !returnObj || ( !returnObj.context && !returnObj.object ) )
+				if( !returnObj || ( !returnObj.context && !returnObj.object ) || !returnObj.object.changed )
 					return;
 				
 				var metadata : MapMetadata = maps.getItemAt( returnObj.object.index ) as MapMetadata;

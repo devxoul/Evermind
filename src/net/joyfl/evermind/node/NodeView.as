@@ -46,12 +46,12 @@
 		 */
 		public function getSnapshot ():BitmapData
 		{
-			var width : Number = 450;
-			var height : Number = 200;
+			var width : Number = 630;
+			var height : Number = 280;
 			
 			var matrix:Matrix = new Matrix;
 			var bitmap:BitmapData = new BitmapData( width, height, false, 0xFFFFFF );
-			matrix.scale( 0.8, 0.8 );
+//			matrix.scale( 0.8, 0.8 );
 			matrix.translate( width / 2, height / 2 );
 			bitmap.draw( this, matrix );
 			return bitmap;

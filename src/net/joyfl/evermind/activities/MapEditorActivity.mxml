@@ -173,6 +173,7 @@
 			override public function createReturnObject() : Object
 			{
 				return {
+					changed: nodeController.history.canUndo,
 					metadata: _map.metadata,
 					index: data.index
 				};
