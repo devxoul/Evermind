@@ -32,9 +32,9 @@
 			
 			private function init() : void
 			{
-				preferences.addItem( {label: "공지사항", message: "0개의 새로운 소식이 있습니다."} );
-				preferences.addItem( {label: "업데이트", message: "최신버전입니다."} );
-				preferences.addItem( {label: "비밀번호 변경", message: "비밀번호를 마지막으로 변경한지 30일이 지났습니다."} );
+//				preferences.addItem( {label: "공지사항", message: "0개의 새로운 소식이 있습니다."} );
+//				preferences.addItem( {label: "업데이트", message: "최신버전입니다."} );
+//				preferences.addItem( {label: "비밀번호 변경", message: "비밀번호를 마지막으로 변경한지 30일이 지났습니다."} );
 				preferences.addItem( {label: "로그아웃", message: "현재 " + Preference.getValue( PreferenceKey.EMAIL ) + "으로 로그인되어있습니다."} );
 			}
 			
