@@ -47,6 +47,14 @@ package net.joyfl.evermind.loader
 			_loader.load( req );
 		}
 		
+		public function signUp( email : String, password : String ) : void
+		{
+			_loader.addEventListener( Event.COMPLETE, onSignUp );
+			var url : String = API_BASE_URL + "?url=signup&email=" + email + "&password=" + password;
+			var req : URLRequest = new URLRequest( url );
+			_loader.load( req );
+		}
+		
 		private function api( command : String, method : String, params : Object = null ) : void
 		{
 			var expireDates : Array = Preference.getValue( PreferenceKey.EXPIRE_TIME ).split( " " );
@@ -215,6 +223,18 @@ package net.joyfl.evermind.loader
 			}
 		}
 		
+		private function onSignUp( e : Event ) : void
+		{
+			var json : Object = JSON.parse( e.target.data );
+			if( json.status.code != 0 )
+			{
+				dispatchEvermindEvent( EvermindEvent.ERROR, json.status );
+				return;
+			}
+			
+			dispatchEvermindEvent( EvermindEvent.SIGN_UP );
+		}
+		
 		private function onListMap( e : Event ) : void
 		{
 			_loader.removeEventListener( Event.COMPLETE, onListMap );
@@ -317,7 +337,7 @@ package net.joyfl.evermind.loader
 		}
 		
 		
-		private function dispatchEvermindEvent( type : String, data : Object ) : void
+		private function dispatchEvermindEvent( type : String, data : Object = null ) : void
 		{
 			dispatchEvent( new EvermindEvent( type, data ) );
 		}

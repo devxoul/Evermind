@@ -2,10 +2,20 @@
 <s:View xmlns:fx="http://ns.adobe.com/mxml/2009" 
 		xmlns:s="library://ns.adobe.com/flex/spark"
 		xmlns:e="net.joyfl.evermind.components.*"
-		title="SignUpActivity" actionBarVisible="false">
+		title="SignUpActivity" actionBarVisible="false"
+		initialize="init()">
 	
 	<fx:Script>
 		<![CDATA[
+			import com.adobe.crypto.SHA1;
+			
+			import mx.events.CloseEvent;
+			
+			import net.joyfl.evermind.components.Alert;
+			import net.joyfl.evermind.events.EvermindEvent;
+			import net.joyfl.evermind.loader.MapLoader;
+			
+			
 			[Embed( source='/../res/textfield_normal.png', scaleGridLeft='4', scaleGridRight='438', scaleGridTop='0', scaleGridBottom='7' )]
 			private var _textFieldNormalClass : Class;
 			[Bindable] private var textFieldNormalImage : Object = new _textFieldNormalClass();
@@ -14,9 +24,70 @@
 			private var _textFieldActivatedClass : Class;
 			[Bindable] private var textFieldActivatedImage : Object = new _textFieldActivatedClass();
 			
+			
+			private var _loadingAlert : Alert;
+			
+			private var _loader : MapLoader = new MapLoader();
+			
+			private function init() : void
+			{
+				_loader.addEventListener( EvermindEvent.SIGN_UP, onSignUp );
+				_loader.addEventListener( EvermindEvent.ERROR, onError );
+			}
+			
 			private function onSignUpButtonClick( e : MouseEvent ) : void
 			{
-				trace( 'sign up' );
+				if( !emailInput.text || emailInput.text == "이메일" )
+				{
+					Alert.show( this, "경고", "이메일을 입력해주세요.", ["확인"] );
+					return;
+				}
+				
+				if( !passwordInput.text || passwordInput.text == "비밀번호" )
+				{
+					Alert.show( this, "경고", "비밀번호를 입력해주세요.", ["확인"] );
+					return;
+				}
+				
+				if( passwordInput.text != passwordVerifyInput.text )
+				{
+					Alert.show( this, "경고", "비밀번호 확인이 다릅니다.", ["확인"] );
+					return;
+				}
+				
+				emailInput.enabled = passwordInput.enabled = passwordVerifyInput.enabled = false;
+				_loader.signUp( emailInput.text, SHA1.hash( passwordInput.text ) );
+				
+				_loadingAlert = Alert.show( this, "", "회원가입중입니다." );
+			}
+			
+			private function onSignUp( e : EvermindEvent ) : void
+			{
+				trace( "signup" );
+				_loadingAlert.close();
+				Alert.show( this, "", "회원가입에 성공했습니다.", ["로그인하러 가기"], onAlertClose );
+			}
+			
+			private function onAlertClose( e : CloseEvent ) : void
+			{
+				navigator.popView();
+				navigator.pushView( SignInActivity );
+			}
+			
+			private function onError( e : EvermindEvent ) : void
+			{
+				_loadingAlert.close();
+				
+				if( e.data.code == 17 )
+				{
+					Alert.show( this, "", "중복된 이메일이 있습니다.", ["확인"] );
+				}
+				else
+				{
+					Alert.show( this, "", "회원가입에 실패했습니다.", ["확인"] );
+				}
+				
+				emailInput.enabled = passwordInput.enabled = passwordVerifyInput.enabled = true;
 			}
 		]]>
 	</fx:Script>
@@ -43,26 +114,26 @@
 		
 		<s:Spacer height="40" />
 		
-		<e:PlaceholderTextInput placeholderText="이메일" color="0x234340" placeholderColor="0x47928B" fontSize="24"
+		<e:PlaceholderTextInput id="emailInput" placeholderText="이메일" color="0x234340" placeholderColor="0x47928B" fontSize="24"
 								focusIn="emailInputLine.source = textFieldActivatedImage"
 								focusOut="emailInputLine.source = textFieldNormalImage" />
 		<s:Image id="emailInputLine" source="{textFieldNormalImage}" horizontalCenter="0" />
 		
 		<s:Spacer height="30" />
 		
-		<e:PlaceholderTextInput placeholderText="비밀번호" color="0x234340" placeholderColor="0x47928B" fontSize="24" displayAsPassword="true"
+		<e:PlaceholderTextInput id="passwordInput" placeholderText="비밀번호" color="0x234340" placeholderColor="0x47928B" fontSize="24" displayAsPassword="true"
 								focusIn="passwordInputLine.source = textFieldActivatedImage"
 								focusOut="passwordInputLine.source = textFieldNormalImage" />
 		<s:Image id="passwordInputLine" source="{textFieldNormalImage}" horizontalCenter="0" />
 		
 		<s:Spacer height="30" />
 		
-		<e:PlaceholderTextInput placeholderText="비밀번호 확인" color="0x234340" placeholderColor="0x47928B" fontSize="24" displayAsPassword="true"
+		<e:PlaceholderTextInput id="passwordVerifyInput" placeholderText="비밀번호 확인" color="0x234340" placeholderColor="0x47928B" fontSize="24" displayAsPassword="true"
 								focusIn="verifyInputLine.source = textFieldActivatedImage"
 								focusOut="verifyInputLine.source = textFieldNormalImage" />
 		<s:Image id="verifyInputLine" source="{textFieldNormalImage}" horizontalCenter="0" />
+		
+		<e:ImageButton left="20" right="20" bottom="345" normalStateImage="@Embed('/../res/button_normal.png')" highlightedStateImage="@Embed('/../res/button_pressed.png')"
+					   text="가입하기" color="0x464F4E" fontSize="24" click="onSignUpButtonClick( event )" />
 	</s:VGroup>
-	
-	<e:ImageButton left="20" right="20" bottom="345" normalStateImage="@Embed('/../res/button_normal.png')" highlightedStateImage="@Embed('/../res/button_pressed.png')"
-				   text="가입하기" color="0x464F4E" fontSize="24" click="onSignUpButtonClick( event )" />
 </s:View>
