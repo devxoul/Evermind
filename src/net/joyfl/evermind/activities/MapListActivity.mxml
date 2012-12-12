@@ -22,7 +22,7 @@
 			
 			private var _loader : MapLoader = new MapLoader();
 			
-			private var _longTouchTimer : Timer = new Timer( 1000 );
+			private var _longTouchTimer : Timer = new Timer( 500 );
 			private var _selectedMap : MapMetadata;
 			
 			private function init() : void

@@ -218,7 +218,7 @@ package net.joyfl.evermind.loader
 		private function onListMap( e : Event ) : void
 		{
 			_loader.removeEventListener( Event.COMPLETE, onListMap );
-			trace( e.target.data );
+			trace( "[MapLoader.onListMap()]", e.target.data );
 			var json : Object = JSON.parse( e.target.data );
 			
 			if( json.status.code != 0 )
@@ -246,7 +246,7 @@ package net.joyfl.evermind.loader
 		private function onGetMap( e : Event ) : void
 		{
 			_loader.removeEventListener( Event.COMPLETE, onGetMap );
-			trace( e.target.data );
+			trace( "[MapLoader.onGetMap()]", e.target.data );
 			var json : Object = JSON.parse( e.target.data );
 			
 			if( json.status.code != 0 )
@@ -271,7 +271,7 @@ package net.joyfl.evermind.loader
 		private function onCreateMap( e : Event ) : void
 		{
 			_loader.removeEventListener( Event.COMPLETE, onCreateMap );
-			trace( "create :", e.target.data );
+			trace( "[MapLoader.onCreateMap()]", e.target.data );
 			var json : Object = JSON.parse( e.target.data );
 			
 			if( json.status.code != 0 )
@@ -289,7 +289,7 @@ package net.joyfl.evermind.loader
 		private function onSetMap( e : Event ) : void
 		{
 			_loader.removeEventListener( Event.COMPLETE, onSetMap );
-			trace( "set :", e.target.data );
+			trace( "[MapLoader.onSetMap()]", e.target.data );
 			var json : Object = JSON.parse( e.target.data );
 			
 			if( json.status.code != 0 )
