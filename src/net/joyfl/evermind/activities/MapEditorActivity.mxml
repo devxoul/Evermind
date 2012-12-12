@@ -8,13 +8,15 @@
 	
 	<fx:Script>
 		<![CDATA[
+			import flash.utils.setTimeout;
+			
 			import mx.events.FlexEvent;
 			
+			import net.joyfl.evermind.components.Alert;
 			import net.joyfl.evermind.controller.NodeController;
 			import net.joyfl.evermind.events.EvermindEvent;
 			import net.joyfl.evermind.loader.MapLoader;
 			import net.joyfl.evermind.models.Map;
-			import net.joyfl.evermind.node.NodeContainer;
 			import net.joyfl.evermind.node.NodeView;
 			
 			private var _loader : MapLoader = new MapLoader();
@@ -25,6 +27,8 @@
 			private var nodeViewContainer:Sprite;
 			private var nodeView:NodeView;
 			private var nodeController:NodeController;
+			
+			private var _loadingAlert : Alert;
 			
 			/**
 			 * 뒤로가기 버튼 클릭 후 onSetMap에서 _back이 true일 경우 리스트로 돌아감
@@ -65,10 +69,15 @@
 			
 			private function save() : void
 			{
+				_loadingAlert = Alert.show( this, "", "저장중입니다." );
+				
 				_map.metadata.title = titleInput.text;
 				_map.metadata.thumbnail = nodeView.getSnapshot();
 				
-				_loader.setMap( _map );
+				setTimeout( function() : void
+				{
+					_loader.setMap( _map );
+				}, 200 );
 			}
 			
 			private function nodeUndo () :void
@@ -87,12 +96,16 @@
 			
 			private function onSetMap( e : EvermindEvent ) : void
 			{
+				_loadingAlert.close();
+				
 				if( e.data == true )
 				{
-					trace( "저장됨" );
-					
 					if( _back )
 						navigator.popView();
+				}
+				else
+				{
+					_loadingAlert = Alert.show( this, "경고", "저장에 실패했습니다." );
 				}
 			}
 			
