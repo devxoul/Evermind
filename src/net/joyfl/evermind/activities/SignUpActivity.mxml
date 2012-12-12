@@ -37,9 +37,9 @@
 			
 			private function onSignUpButtonClick( e : MouseEvent ) : void
 			{
-				if( !emailInput.text || emailInput.text == "이메일" )
+				if( !emailInput.text || emailInput.text == "아이디" )
 				{
-					Alert.show( this, "경고", "이메일을 입력해주세요.", ["확인"] );
+					Alert.show( this, "경고", "아이디을 입력해주세요.", ["확인"] );
 					return;
 				}
 				
@@ -80,7 +80,7 @@
 				
 				if( e.data.code == 17 )
 				{
-					Alert.show( this, "", "중복된 이메일이 있습니다.", ["확인"] );
+					Alert.show( this, "", "중복된 아이디이 있습니다.", ["확인"] );
 				}
 				else
 				{
@@ -114,7 +114,7 @@
 		
 		<s:Spacer height="40" />
 		
-		<e:PlaceholderTextInput id="emailInput" placeholderText="이메일" color="0x234340" placeholderColor="0x47928B" fontSize="24"
+		<e:PlaceholderTextInput id="emailInput" placeholderText="아이디" color="0x234340" placeholderColor="0x47928B" fontSize="24"
 								focusIn="emailInputLine.source = textFieldActivatedImage"
 								focusOut="emailInputLine.source = textFieldNormalImage" />
 		<s:Image id="emailInputLine" source="{textFieldNormalImage}" horizontalCenter="0" />

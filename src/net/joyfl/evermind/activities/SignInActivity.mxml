@@ -81,7 +81,7 @@
 		
 		<s:Spacer height="40" />
 		
-		<e:PlaceholderTextInput id="emailInput" placeholderText="이메일" color="0x234340" placeholderColor="0x47928B" fontSize="24"
+		<e:PlaceholderTextInput id="emailInput" placeholderText="아이디" color="0x234340" placeholderColor="0x47928B" fontSize="24"
 								focusIn="emailInputLine.source = textFieldActivatedImage"
 								focusOut="emailInputLine.source = textFieldNormalImage" />
 		<s:Image id="emailInputLine" source="{textFieldNormalImage}" horizontalCenter="0" />
