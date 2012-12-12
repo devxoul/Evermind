@@ -11,5 +11,6 @@
 		s|ActionBar #titleDisplay {
 			fontWeight: normal;
 		}
+
 	</fx:Style>
 </s:ViewNavigatorApplication>

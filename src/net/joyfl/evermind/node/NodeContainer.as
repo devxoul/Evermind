@@ -7,6 +7,7 @@
 	import flash.text.TextField;
 	import flash.text.TextFieldAutoSize;
 	import flash.text.TextFieldType;
+	import flash.text.TextFormat;
 	
 	/**
 	 * NodeContainer
@@ -71,6 +72,7 @@
 			return children[ idx ];
 		}
 		
+		private var _textFormat:TextFormat;
 		private var _isEditMode:Boolean;
 		private var _textField:TextField;
 		private var _bitmap:Bitmap;
@@ -116,6 +118,24 @@
 			return _rightPoint;
 		}
 		
+		public function get textFormat ():TextFormat
+		{
+			return _textFormat;
+		}
+		
+		public function set textFormat ( value : TextFormat ) : void
+		{
+			_textFormat = value;
+		}
+		
+		public function syncTextFormat () :void
+		{
+			for each ( var node:NodeContainer in this.getAllNode() )
+			{
+				node.textFormat = _textFormat;
+			}
+		}
+		
 		/**
 		 * NodeContainer를 생성
 		 * @param	x		노드의 x 값
@@ -139,8 +159,8 @@
 			this.media = media;
 			_code = 0xFFFFFFFF * Math.random();
 			children = new Vector.<NodeData>;
+			textFormat = new TextFormat;
 		}
-		
 		
 		/**
 		 * 하위 노드를 생성한다.
@@ -152,7 +172,7 @@
 		 */
 		public function createNode ( x:Number, y:Number, title:String, media:BitmapData = null ) :NodeData
 		{
-			var node:NodeData = new NodeData( x, y, title, media );
+			var node:NodeData = new NodeData( x, y, title, media, textFormat );
 			node.setParent( this );
 			children.push( node );
 			return node;
@@ -299,6 +319,8 @@
 		
 		internal function drawLine ( view:NodeView, shape:Shape, level:Number = 5, color:uint = 16777216 ):void
 		{
+			if( textFormat != null ) textField.setTextFormat( textFormat );
+			
 			if( color == 16777216 ) 
 			{
 				this.calculate();
