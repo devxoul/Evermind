@@ -7,10 +7,6 @@ bin-debug/Evermind.swf
 
 bin-debug/Evermind-app.xml
 
-*.apk
-
-Evermind.apk
-
 bin-debug/Evermind.apk
 
 bin-debug/Evermind-app.xml
